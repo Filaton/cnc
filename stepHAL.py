@@ -22,6 +22,9 @@ class stepper(object):
         GPIO.setup(self.ENA_PIN, GPIO.OUT)    #PINS auf Ausgang setzen
         GPIO.setup(self.DIR_PIN, GPIO.OUT)       
         GPIO.setup(self.PUL_PIN, GPIO.OUT)
+
+    def __del__(self):
+        GPIO.cleanup()
     
 
 
