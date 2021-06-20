@@ -13,6 +13,7 @@
     <title>DapiWebApp</title>
     <base href="~/" />
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/Cocktail/Cocktail.css" />
     <link href="css/site.css" rel="stylesheet" />
 </head>
 <body>
@@ -32,5 +33,53 @@
     </div>
 
     <script src="_framework/blazor.server.js"></script>
-</body>
+    <script src="~/NewFolder/DragAndDrop.js"></script>
+
+    <h1>Crushed`n Cocktails</h1>
+
+    <script>
+        function allowDrop(ev) {
+            ev.preventDefault();
+        }
+
+        function drag(ev) {
+            ev.dataTransfer.setData("image", ev.target.id);
+        }
+
+        function drop(ev) {
+            ev.preventDefault();
+            var data = ev.dataTransfer.getData("image");
+            ev.target.appendChild(document.getElementById(data));
+        }
+    </script>
+
+    
+
+        <div class="grid-container">
+            <div ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+
+            <div ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+
+            <div ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+
+            <div ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+            <div ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+
+        </div>
+
+        <img id="Vodka" class="Getränke" src="Bilder/Vodka.jpg" draggable="true" ondragstart="drag(event)" height="100" width="100">
+    </body>
+   
 </html>
+
