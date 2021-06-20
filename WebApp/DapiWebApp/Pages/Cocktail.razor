@@ -1,0 +1,195 @@
+﻿@page "/cocktail"
+@using DataLibrary
+@using DapiWebApp.Models
+@using Microsoft.Extensions.Configuration
+@inject IDataAccess _Cocktails
+@inject IDataAccess _Zutaten
+@inject IDataAccess _ZutatenVon
+@inject IConfiguration _config
+
+
+<h3>Cocktail</h3>
+
+
+@if (AlkoholischeGetränke == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <p><em>Alkoholisch</em></p>
+
+    <table class=" table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Alk</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var zutat in AlkoholischeGetränke)
+            {
+
+                <tr>
+                    <td>@zutat.ID</td>
+                    <td>@zutat.Name</td>
+                    <td>@zutat.Alhoholisch</td>
+
+
+                </tr>
+
+
+
+            }
+        </tbody>
+    </table>
+
+}
+
+<p><em>Nicht Alkoholisch</em></p>
+
+<table class=" table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Alk.</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var zutat in ZutatenListe)
+        {
+
+            <tr>
+                <td>@zutat.ID</td>
+                <td>@zutat.Name</td>
+                <td>@zutat.Alhoholisch</td>
+
+            </tr>
+
+
+
+        }
+    </tbody>
+</table>
+<p><em>Liste der Cocktails</em></p>
+<table class=" table">
+    <thead>
+        <tr>
+            <th>Name</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var zutat in Drinks)
+        {
+            @if (getPosition(zutat.ID) != -1)
+            {
+                <tr>
+
+                    <td>@zutat.Name</td>
+
+
+
+                </tr>
+            }
+
+
+
+        }
+    </tbody>
+</table>
+
+
+@*<p> </p>
+    <p>Die ausgewählten Getränke sind:</p>
+    <p> </p>*@
+
+@*<table class="tabel">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Beschreibung</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var drink in Drinks)
+            {
+                @if (drink.isActive)
+                {
+                    <tr>
+                        <td>@drink.Cocktail_ID</td>
+                        <td>@drink.Cocktail_Name</td>
+                        <td>@drink.Cocktail_Beschreibung</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>*@
+
+@code {
+    /*private WeatherForecast[] forecasts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+    }*/
+    List<CocktailListe> Drinks;
+    List<ZutatenVonListe> ZutatenVon;
+    List<Zutaten> ZutatenListe = new List<Zutaten>();
+    List<ViewCocktail> test;
+    List<Zutaten> AlkoholischeGetränke;
+    int[,] Positionen = new int[12, 2];
+
+    protected override async Task OnInitializedAsync()
+    {
+        //string sql = "select CnC.cocktails.Name AS Cocktails,CnC.zutaten.Name AS Zutat from ((CnC.zutaten join CnC.cocktails) join CnC.zutat_von) where ((CnC.cocktails.ID = CnC.zutat_von.CocktailID) and (CnC.zutat_von.ZutatID = CnC.zutaten.ID));";
+        string sql = "select * from cocktails;";
+        string sql2 = "select * from CnC.zutaten where Alkoholisch =0;";
+        string sql3 = "select * from zutat_von";
+        string sql4 = "select CnC.cocktails.Name AS Cocktails,CnC.zutaten.Name AS Zutat from ((CnC.zutaten join CnC.cocktails) join CnC.zutat_von) where ((CnC.cocktails.ID = CnC.zutat_von.CocktailID) and (CnC.zutat_von.ZutatID = CnC.zutaten.ID))";
+        string sql5 = "select * from zutaten where Alkoholisch =1";
+        //ZutatenVon = await _Cocktails.LoadData<ZutatenVonListe, dynamic>(sql, new { }, _config.GetConnectionString("default"));
+        ZutatenListe = await _Cocktails.LoadData<Zutaten, dynamic>(sql2, new { }, _config.GetConnectionString("default")); //Geht
+        Drinks = await _Cocktails.LoadData<CocktailListe, dynamic>(sql, new { }, _config.GetConnectionString("default"));
+        ZutatenVon = await _Cocktails.LoadData<ZutatenVonListe, dynamic>(sql3, new { }, _config.GetConnectionString("default"));
+        test = await _Cocktails.LoadData<ViewCocktail, dynamic>(sql4, new { }, _config.GetConnectionString("default"));
+        AlkoholischeGetränke = await _Cocktails.LoadData<Zutaten, dynamic>(sql5, new { }, _config.GetConnectionString("default"));
+        foreach (var v in AlkoholischeGetränke)
+        {
+            v.Alhoholisch = 1;
+        }
+        ZutatenListe.AddRange(AlkoholischeGetränke);
+
+        for (int i = 0; i < 12; i++)
+        {
+            Positionen[i, 0] = i;
+            Positionen[i, 1] = ZutatenListe[i].ID;
+        }
+
+    }
+    //-1 = Getränk nicht vorhanden
+    public int getPosition(int id)
+    {
+        for (int i = 0; i < 12; i++)
+        {
+            if (Positionen[i, 1] == id)
+            {
+                return Positionen[i, 0];
+            }
+        }
+        return -1;
+    }
+
+    public void swapp(int id1, int id2)
+    {
+        int Pos = Positionen[id1, 0];
+        int Cocktail_ID = Positionen[id1, 1];
+        Positionen[1, id1] = id2;
+        Positionen[1, id2] = id1;
+    }
+
+
+}

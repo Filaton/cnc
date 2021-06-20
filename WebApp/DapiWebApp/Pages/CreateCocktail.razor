@@ -1,0 +1,57 @@
+﻿@*@page "/createcocktail"
+@using DataLibrary
+@using DapiWebApp.Models
+@using Microsoft.Extensions.Configuration
+@inject IDataAccess _Cocktails
+@inject IConfiguration _config
+
+
+
+<h3>CreateCocktail</h3>
+
+
+
+    <EditForm Model="@cocktail" onValidSubmit ="save" >
+        <div class="col-12 row">
+            <label class="col-2 font-weight-bold">Cocktail Id: </label>
+            <InputNumber @bind-Value="cocktail.Cocktail_ID" />
+        </div>
+
+        <div class="col-12 row">
+            <label class="col-2 font-weight-bold">Name: </label>
+            <InputText @bind-Value="cocktail.Cocktail_Name" />
+        </div>
+
+        <div class="col-12 row">
+            <label class="col-2 font-weight-bold">>Beschreibung: </label>
+            <InputText @bind-Value="cocktail.Cocktail_Beschreibung" />
+        </div>
+
+
+        <div class="col-12 row">
+            <input type="submit" class="from-control col-1 btn btn-primary" value="Insert Cocktail" />
+            
+        </div>
+
+    </EditForm>
+
+
+@code {
+    private CocktailListe cocktail;
+
+    //public UInt32 ID;
+    protected override void OnInitialized()
+    {
+        cocktail = new CocktailListe();
+    }
+
+    private async Task InsertCocktail()
+    {
+    //    //Write to DB
+       // string sql = "insert into Cocktail_list (Cocktail_ID, Cocktail_Name, Cocktail_Beschreibung, isActive  ) values(@Cocktail_ID, @Cocktail_Name, @Cocktail_Beschreibung, @isActive);";
+        //await _Cocktails.SaveData(sql, new {Cocktail_ID =cocktail.Cocktail_ID, Cocktail_Name = cocktail.Cocktail_Name, Cocktail_Beschreibung=cocktail.Cocktail_Beschreibung, isActive=false}, _config.GetConnectionString("default"));
+
+    }
+    //OnValidSubmit="InsertCocktail(cocktail.Cocktail_ID,cocktail.Cocktail_Name,cocktail.Cocktail_Beschreibung)"
+    
+}*@
