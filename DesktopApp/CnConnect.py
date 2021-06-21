@@ -1,3 +1,4 @@
+from typing import List
 from PyQt6 import QtCore
 from PyQt6 import uic, QtSql
 from PyQt6.QtWidgets import QTableWidgetItem, QTableWidget, QApplication, QMainWindow, QWidget
@@ -9,18 +10,33 @@ from mysql.connector import errorcode
 from getpass import getpass
 
 class SQLDatabase:
+    """Hersetllen der Verbindung zur Datenbank
+    """
     def __init__(self) -> None:
         self.cnx = mysql.connector.connect(user='cnc', database='CnC', host = 'filatonsserver.ddns.net', password = getpass())
         if self.cnx.is_connected():
             print('Connection established')
 
     def disconnect(self):
+        """Verbindung trennen
+        """
         self.cnx.close()
 
 myDB = SQLDatabase()
 
 class Cocktail:
-    def __init__(self, name: str, zutaten) -> None:
+    """Cocktail Objekt
+    """
+    def __init__(self, name: str, zutaten: List[int]) -> None:
+        """Weist Daten zu
+
+        Parameters
+        ----------
+        name : str
+            Name des Cocktails
+        zutaten : [int]
+            Array mit Zutaten-IDs der Cocktails
+        """
         self.name = name
         self.zutaten = []
         for i in zutaten:
@@ -28,6 +44,8 @@ class Cocktail:
                 self.zutaten.append(i)
         
     def addToDB(self):
+        """Hinzufuegen eines Cocktails zur Datenbank
+        """
         cursor = myDB.cnx.cursor()
 
         get_cocktail_count = ("SELECT count(ID) from cocktails;")
@@ -49,7 +67,11 @@ class Cocktail:
 
 
 class AddCocktail(QWidget):
+    """Qt Klasse zum Hinzufuegen eines Cocktails
+    """
     def __init__(self):
+        """Init der Buttons und erste Datenbankabfragen
+        """
         super().__init__()
         uic.loadUi('addcocktail.ui', self)
         self.SaveButton.clicked.connect(self.saveCocktail)
@@ -57,6 +79,8 @@ class AddCocktail(QWidget):
         self.getZutaten()
 
     def saveCocktail(self):
+        """Speichern des Cocktails in der Datenbank
+        """
         zutaten = [self.getChosenZutaten(self.zutatenbox1),
                    self.getChosenZutaten(self.zutatenbox2),
                    self.getChosenZutaten(self.zutatenbox3),
@@ -69,6 +93,8 @@ class AddCocktail(QWidget):
         self.close()
     
     def getZutaten(self):
+        """Befuellen der Zutatenmenus
+        """
         cursor = myDB.cnx.cursor()
         getZutatenList = ("SELECT ID, Name FROM zutaten;")
         cursor.execute(getZutatenList)
@@ -88,13 +114,31 @@ class AddCocktail(QWidget):
         cursor.close()
 
     def getChosenZutaten(self, box):
+        """Aktuelle Zutat zurueckgeben
+
+        Parameters
+        ----------
+        box : [type]
+            Gesuchte Box
+
+        Returns
+        -------
+        [type]
+            Index der Auswahl im Dropdown Menu
+        """
         return box.currentIndex()
     
     def abort(self):
+        """Abbrechen der Erstellung
+        """
         self.close()
 
 class Ui(QMainWindow):
+    """Hauptteil der Anwendung
+    """
     def __init__(self):
+        """Laden des UI Files und Trigger Zuweisung
+        """
         super().__init__() # Call the inherited classes __init__ method
         uic.loadUi('mainwindow.ui', self) # Load the .ui file
 
@@ -107,9 +151,13 @@ class Ui(QMainWindow):
         self.show() # Show the GUI
 
     def cocktailAdd(self):
+        """Aufrufen des zweiten Fensters
+        """
         self.cocktailwindow.show()
 
     def loadCocktails(self):
+        """Laden der bereits vorhandenen Cocktails
+        """
         cursor = myDB.cnx.cursor()
         get_cocktailnames = ("SELECT Name FROM cocktails")
         cursor.execute(get_cocktailnames)
