@@ -4,7 +4,7 @@ Desktop Applikation, die das Einfügen und später auch das Löschen und Bearbei
 
 ## Framework
 
-Verwendung des At Frameworks, wegen Portabilität und Einfachheit.
+Verwendung des Qt Frameworks, wegen Portabilität und Einfachheit.
 
 ## Setup
 
