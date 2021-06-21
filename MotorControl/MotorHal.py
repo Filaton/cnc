@@ -3,7 +3,7 @@ import RPi.GPIO as GPIO
 import time
 
 class motor(object):
-    def __init__(self, IN1_Pin, IN2_Pin, EN_Pin)):
+    def __init__(self, IN1_Pin, IN2_Pin, EN_Pin):
         self.IN1_Pin = IN1_Pin
         self.IN2_Pin = IN2_Pin
         self.EN_Pin = EN_Pin

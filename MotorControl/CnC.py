@@ -10,12 +10,11 @@ class CnC(object):
         Klasse, die deine gesamte Cocktailmaschine repäsentiert
     '''
 
-    def __init__(self,stepper1: stepper,stepper2: stepper,motor_pusher: motor, pump1: motor, pump2: motor, pump3: motor, pump4: motor, pump5: motor, pump6: motor, pump7: motor, order: List[4, 4]):
+    def __init__(self,stepper1: stepper,stepper2: stepper,motor_pusher: motor, pump1: motor, pump2: motor, pump3: motor, pump4: motor, pump5: motor, pump6: motor, pump7: motor):
         self.motor_vertical = stepper1
         self.motor_horizontal = stepper2
         self.motor_getränk = motor_pusher
         self.pumps = [pump1, pump2, pump3, pump4, pump5, pump6, pump7]
-        self.order66 = order
         self.driveToStart()  
         self.HOEHE = 100
         self.BREITE = 100
@@ -40,9 +39,9 @@ class CnC(object):
             0: Success
             1: Target out of Bounce
         '''
-        if self.currentPos == target):
+        if self.currentPos == target:
             return 0
-        if(target < 0 or target > 15):
+        if target < 0 or target > 15:
             return 1
         target_vert = target%4
         target_hori = target/4
