@@ -27,7 +27,7 @@ myDB = SQLDatabase()
 class Cocktail:
     """Cocktail Objekt
     """
-    def __init__(self, name: str, zutaten: List[int]) -> None:
+    def __init__(self, name: str, zutaten: List[int], mengen: List[str]) -> None:
         """Weist Daten zu
 
         Parameters
@@ -39,6 +39,7 @@ class Cocktail:
         """
         self.name = name
         self.zutaten = []
+        self.mengen = mengen
         for i in zutaten:
             if (i != 0):
                 self.zutaten.append(i)
@@ -57,8 +58,8 @@ class Cocktail:
         
         cocktaildata = (newid, self.name)
 
-        for i in self.zutaten:
-            zutatendata = (newid, i, 0)
+        for i in range(len(self.zutaten)):
+            zutatendata = (newid, self.zutaten[i], self.mengen[i])
             cursor.execute(add_cocktailzutaten, zutatendata)
 
         cursor.execute(add_cocktailname, cocktaildata)
@@ -88,7 +89,14 @@ class AddCocktail(QWidget):
                    self.getChosenZutaten(self.zutatenbox5),
                    self.getChosenZutaten(self.zutatenbox6)]
 
-        temp = Cocktail(self.cocktailnameedit.text(), zutaten)
+        mengen = [self.menge1.cleanText(),
+                  self.menge2.cleanText(),
+                  self.menge3.cleanText(),
+                  self.menge4.cleanText(),
+                  self.menge5.cleanText(),
+                  self.menge6.cleanText()]
+
+        temp = Cocktail(self.cocktailnameedit.text(), zutaten, mengen)
         temp.addToDB()
         self.close()
     
