@@ -8,9 +8,11 @@ Verwendung des Qt Frameworks, wegen Portabilität und Einfachheit.
 
 ## Setup
 
-Um die App selbst zum Laufen zu bringen wird lediglich Python und PyQt6 benötigt.
+Um die App selbst zum Laufen zu bringen wird lediglich Python, mySQL Connector und PyQt6 benötigt.
 
 `pip install pyqt6`
+
+`pip install mysql-connector-python`
 
 Zusätzlich ist natürlich noch ein Zugang zur Datenbank erforderlich.
 
