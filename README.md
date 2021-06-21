@@ -36,3 +36,5 @@ Desktop-App um Cocktails in die Datenbank einbinden zu können | 65h
 Inhalt  |  Beschreibung
 -------- |  ------------
 [Desktop App](DesktopApp/DesktopApp.md) | The Desktop App (CnConnector)
+[Motor HAL](MotorControl/MotorControl.md) | The Motor Control
+[Web App](WebApp/WebApp.md) | The Web App
