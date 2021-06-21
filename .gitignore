@@ -1,5 +1,6 @@
 # VS Code
 .vscode
+.qt_for_python
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
