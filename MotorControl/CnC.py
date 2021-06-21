@@ -9,7 +9,6 @@ class CnC(object):
     '''
         Klasse, die deine gesamte Cocktailmaschine repäsentiert
     '''
-
     def __init__(self,stepper1: stepper,stepper2: stepper,motor_pusher: motor, pump1: motor, pump2: motor, pump3: motor, pump4: motor, pump5: motor, pump6: motor, pump7: motor):
         self.motor_vertical = stepper1
         self.motor_horizontal = stepper2
