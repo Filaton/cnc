@@ -23,3 +23,15 @@ Probleme:
  -  Nur mit einer Blazor Web Assembly Application konnte eine progressive Web App erstellt werden	
  -  Auch bei einem lesenden ZUgriff auf die Datenbank können noch falsche Informationen übermittelt werden
    
+   Einteilung der Zeit
+
+  -   Notwendige Rechercehn zur Arbeitsweise einer Web App 15 Stunden
+  -   Erlernung von HTML spezifischen Kentnissen 6 Stunden 
+  -   Notwendige Software herunterzuladen und zu instalieren 1,5 Stunden
+  -   Einarbeitung in Angular und Java Script 5 Stunden
+  -   Einarbeitung in 10 Stunden
+  -   Planung der Web App 10 Stunden
+  -   Programmierung der Web App 25 Stunden
+  -   Anbindung der Datenbank 15 Stunden 
+  -   Debugging 10 Stunden
+  -   Anbindung der Web App an das Projekt 3 Stunden 
