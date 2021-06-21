@@ -19,6 +19,8 @@ Erstellen einer Cocktailmaschine mit Unterstützung für 16 Flaschen und 7 Kanis
 - WebApp größtenteils fertiggestellt
 - Desktop App fertiggestellt (mehr Funktionen geplant)
 
+## Inhalt
+
 Inhalt  |  Beschreibung
 -------- |  ------------
 [Desktop App](DesktopApp/DesktopApp.md) | The Desktop App (CnConnector)
