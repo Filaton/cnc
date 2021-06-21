@@ -98,9 +98,9 @@ class Ui(QMainWindow):
         super().__init__() # Call the inherited classes __init__ method
         uic.loadUi('mainwindow.ui', self) # Load the .ui file
 
-        newItem = QTableWidgetItem("Hallo")
-        self.tableWidget.setItem(1, 1, newItem)
         self.actionCocktail_hinzufuegen.triggered.connect(self.cocktailAdd)
+        
+        self.loadCocktails()
 
         self.cocktailwindow = AddCocktail()
 
@@ -108,6 +108,13 @@ class Ui(QMainWindow):
 
     def cocktailAdd(self):
         self.cocktailwindow.show()
+
+    def loadCocktails(self):
+        cursor = myDB.cnx.cursor()
+        get_cocktailnames = ("SELECT Name FROM cocktails")
+        cursor.execute(get_cocktailnames)
+        for (Name, ) in cursor:
+            self.cocktailList.addItem(Name)
 
 
 app = QApplication(sys.argv) # Create an instance of QtWidgets.QApplication
