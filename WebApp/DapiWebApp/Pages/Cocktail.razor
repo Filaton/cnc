@@ -6,6 +6,7 @@
 @inject IDataAccess _Zutaten
 @inject IDataAccess _ZutatenVon
 @inject IConfiguration _config
+@inject IJSRuntime JSRuntime
 
 
 <h3>Cocktail</h3>
@@ -30,17 +31,11 @@ else
         <tbody>
             @foreach (var zutat in AlkoholischeGetränke)
             {
-
                 <tr>
                     <td>@zutat.ID</td>
                     <td>@zutat.Name</td>
                     <td>@zutat.Alhoholisch</td>
-
-
                 </tr>
-
-
-
             }
         </tbody>
     </table>
@@ -60,15 +55,14 @@ else
     <tbody>
         @foreach (var zutat in ZutatenListe)
         {
-
-            <tr>
-                <td>@zutat.ID</td>
-                <td>@zutat.Name</td>
-                <td>@zutat.Alhoholisch</td>
-
-            </tr>
-
-
+            @if (zutat.Alhoholisch == 0)
+            {
+                <tr>
+                    <td>@zutat.ID</td>
+                    <td>@zutat.Name</td>
+                    <td>@zutat.Alhoholisch</td>
+                </tr>
+            }
 
         }
     </tbody>
@@ -77,71 +71,42 @@ else
 <table class=" table">
     <thead>
         <tr>
+            <th>ID</th>
             <th>Name</th>
 
         </tr>
     </thead>
     <tbody>
-        @foreach (var zutat in Drinks)
+        @foreach (var drink in Drinks)
         {
-            @if (getPosition(zutat.ID) != -1)
+            @if (getPosition(drink.ID) != -1)
             {
                 <tr>
-
-                    <td>@zutat.Name</td>
-
-
-
+                    <td>@drink.ID</td>
+                    <td>@drink.Name</td>
+                    <td> <input type="checkbox" @onclick="@(e => SelectCocktail(drink.ID))" />   </td>
                 </tr>
             }
-
-
 
         }
     </tbody>
 </table>
 
 
-@*<p> </p>
-    <p>Die ausgewählten Getränke sind:</p>
-    <p> </p>*@
 
-@*<table class="tabel">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Beschreibung</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var drink in Drinks)
-            {
-                @if (drink.isActive)
-                {
-                    <tr>
-                        <td>@drink.Cocktail_ID</td>
-                        <td>@drink.Cocktail_Name</td>
-                        <td>@drink.Cocktail_Beschreibung</td>
-                    </tr>
-                }
-            }
-        </tbody>
-    </table>*@
+
 
 @code {
-    /*private WeatherForecast[] forecasts;
 
-    protected override async Task OnInitializedAsync()
-    {
-        forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
-    }*/
     List<CocktailListe> Drinks;
     List<ZutatenVonListe> ZutatenVon;
     List<Zutaten> ZutatenListe = new List<Zutaten>();
     List<ViewCocktail> test;
     List<Zutaten> AlkoholischeGetränke;
+    List<string> selectedCocktails;
     int[,] Positionen = new int[12, 2];
+    int[,] Positionen_Getraenke = new int[16, 2];
+
 
     protected override async Task OnInitializedAsync()
     {
@@ -167,9 +132,20 @@ else
         {
             Positionen[i, 0] = i;
             Positionen[i, 1] = ZutatenListe[i].ID;
+            //Positionen[i, 0] = -1;
+            //Positionen[i, 1] = -1;
         }
 
     }
+
+    public void SelectCocktail(int ID)
+    {
+        //System.Net.Http.HttpContent content = new HttpContent("test");
+        string PORT="50000";
+        System.Net.Http.HttpClient client = new HttpClient();
+        client.PostAsync("http://localhost:" + PORT, new StringContent(ID.ToString()));
+    }
+
     //-1 = Getränk nicht vorhanden
     public int getPosition(int id)
     {
@@ -190,6 +166,16 @@ else
         Positionen[1, id1] = id2;
         Positionen[1, id2] = id1;
     }
+    public void Einsortieren(int getraenke_ID, int cocktail_ID)
+    {
+
+        if (Positionen[getraenke_ID, 0] == -1)
+        {
+            Positionen[getraenke_ID, 1] = cocktail_ID;
+        }
+    }
+
+
 
 
 }
