@@ -13,12 +13,12 @@ Geplante Implementierung:
 
 Erreichte Implementierung:
  -   Blazor Web Applikation
- -   Alle Getränke und die daraus resultierenden Cocktails werden angezeigt
+ -   Alle Getränke und die daraus resultierenden Cocktails werden angezeigt und können ausgewählt werden
  -   Anbindung an eine MySql Datenbank
 
 Probleme:
- -  Einarbeitung in eine nicht bekannte Programmiersprache und in Programmierung einer Web App
- -  Blazor Web Assembly konnte nur schwer mit der Datenbank verknüpfen da es ein Front end Framework ist und eine API benötigt hätte
+ -  Einarbeitung in eine nicht bekannte Programmiersprachen Java Script und c# und in Programmierung einer Web App
+ -  Blazor Web Assembly konnte nur schwer mit der Datenbank verknüpfen da es ein Front end Framework ist und eine API     benötigt hätte
  -  Blazor Webassembly hat im speziellen ein Problem sich mit einer MySql Datenbank zu verbinden
  -  Nur mit einer Blazor Web Assembly Application konnte eine progressive Web App erstellt werden	
  -  Auch bei einem lesenden ZUgriff auf die Datenbank können noch falsche Informationen übermittelt werden
