@@ -150,6 +150,8 @@ class Ui(QMainWindow):
         super().__init__() # Call the inherited classes __init__ method
         uic.loadUi('mainwindow.ui', self) # Load the .ui file
 
+        self.setWindowTitle("CnConnect")
+
         self.actionCocktail_hinzufuegen.triggered.connect(self.cocktailAdd)
         
         self.loadCocktails()
