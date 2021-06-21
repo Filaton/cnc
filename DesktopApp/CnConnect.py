@@ -13,9 +13,17 @@ class SQLDatabase:
     """Hersetllen der Verbindung zur Datenbank
     """
     def __init__(self) -> None:
-        self.cnx = mysql.connector.connect(user='cnc', database='CnC', host = 'filatonsserver.ddns.net', password = getpass())
-        if self.cnx.is_connected():
-            print('Connection established')
+        try:
+            self.cnx = mysql.connector.connect(user='cnc', database='CnC', host = 'filatonsserver.ddns.net', password = getpass())
+            if self.cnx.is_connected():
+                print('Connection established')
+        except mysql.connector.Error as err:
+            if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+                print("Something is wrong with your user name or password")
+            elif err.errno == errorcode.ER_BAD_DB_ERROR:
+                print("Database does not exist")
+            else:
+                print(err)
 
     def disconnect(self):
         """Verbindung trennen
