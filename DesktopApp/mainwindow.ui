@@ -15,49 +15,8 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="1" column="0">
-     <widget class="QPushButton" name="ConnectButton">
-      <property name="text">
-       <string>Verbinden</string>
-      </property>
-     </widget>
-    </item>
     <item row="0" column="0">
-     <widget class="QTableWidget" name="tableWidget">
-      <property name="sizeAdjustPolicy">
-       <enum>QAbstractScrollArea::AdjustToContents</enum>
-      </property>
-      <property name="gridStyle">
-       <enum>Qt::DashDotLine</enum>
-      </property>
-      <property name="rowCount">
-       <number>15</number>
-      </property>
-      <property name="columnCount">
-       <number>3</number>
-      </property>
-      <attribute name="horizontalHeaderCascadingSectionResizes">
-       <bool>false</bool>
-      </attribute>
-      <row/>
-      <row/>
-      <row/>
-      <row/>
-      <row/>
-      <row/>
-      <row/>
-      <row/>
-      <row/>
-      <row/>
-      <row/>
-      <row/>
-      <row/>
-      <row/>
-      <row/>
-      <column/>
-      <column/>
-      <column/>
-     </widget>
+     <widget class="QListWidget" name="cocktailList"/>
     </item>
    </layout>
   </widget>
