@@ -21,15 +21,15 @@ Erstellen einer Cocktailmaschine mit Unterstützung für 16 Flaschen und 7 Kanis
 
 ## Zeitaufwand
 
-Aufgabe  |  Zeit
--------- |  ------------
-Planung und Konstruktion der Cocktailmaschine | 150h
-HAL für Motoren der Cocktailmaschine | 30h
-HAL für Pumpen der CnC | 25h
-Ansteuerung des TFT Displays | TODO
-Datenbankserver mit DynDNS – Anbindung | 30h
-Progressive Web App, mithilfe derer man die Cocktails bestellt werden können. | 100h
-Desktop-App um Cocktails in die Datenbank einbinden zu können | 65h
+Aufgabe  |  Zeit        | Person
+-------- |  ------------|---------------
+Planung und Konstruktion der Cocktailmaschine | 150h | MAH, ABM
+HAL für Motoren der Cocktailmaschine | 30h | MAH
+HAL für Pumpen der CnC | 25h | MAH
+Ansteuerung des TFT Displays | TODO | MAH, ABM
+Datenbankserver mit DynDNS – Anbindung | 30h | ABM
+Progressive Web App, mithilfe derer man die Cocktails bestellt werden können. | 100h | ZAP
+Desktop-App um Cocktails in die Datenbank einbinden zu können | 65h | ABM
 
 ## Inhalt
 
