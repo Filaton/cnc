@@ -3,7 +3,7 @@ import RPi.GPIO as GPIO
 import time
 
 class Motor(object):
-    def __init__(self, IN1_Pin, IN2_Pin, EN_Pin)):
+    def __init__(self, IN1_Pin, IN2_Pin, EN_Pin):
         self.IN1_Pin = IN1_Pin
         self.IN2_Pin = IN2_Pin
         self.EN_Pin = EN_Pin
@@ -47,7 +47,7 @@ class Motor(object):
         self.pwmHandle.changeDutyCycle(0)
         return 0
 
-        def run_speed(self, Direction, Duration = 5, speed = 100):
+    def run_speed(self, Direction, Duration = 5, speed = 100):
         '''
         Funktion um den Motor eine gewisse Dauer drehen zu lassen
         Blockende Funktion
