@@ -2,11 +2,7 @@
 import RPi.GPIO as GPIO
 import time
 
-<<<<<<< HEAD:MotorHal.py
 class Motor(object):
-=======
-class motor(object):
->>>>>>> 17bd87c1d3328f3af8da960bd2d5905f343900a2:MotorControl/MotorHal.py
     def __init__(self, IN1_Pin, IN2_Pin, EN_Pin):
         self.IN1_Pin = IN1_Pin
         self.IN2_Pin = IN2_Pin
@@ -51,17 +47,10 @@ class motor(object):
         self.pwmHandle.changeDutyCycle(0)
         return 0
 
-<<<<<<< HEAD:MotorHal.py
     def run_speed(self, Direction, Duration = 5, speed = 100):
         '''
         Funktion um den Motor eine gewisse Dauer drehen zu lassen
         Blockende Funktion
-=======
-        def run_speed(self, Direction, Duration = 5, speed = 100):
-            '''
-            Funktion um den Motor eine gewisse Dauer drehen zu lassen
-            Blockende Funktion
->>>>>>> 17bd87c1d3328f3af8da960bd2d5905f343900a2:MotorControl/MotorHal.py
 
             Parameter:
                 Direction: Richtung in die der Motor drehen soll
