@@ -2,7 +2,11 @@
 import RPi.GPIO as GPIO
 import time
 
+<<<<<<< HEAD:MotorHal.py
 class Motor(object):
+=======
+class motor(object):
+>>>>>>> 17bd87c1d3328f3af8da960bd2d5905f343900a2:MotorControl/MotorHal.py
     def __init__(self, IN1_Pin, IN2_Pin, EN_Pin):
         self.IN1_Pin = IN1_Pin
         self.IN2_Pin = IN2_Pin
@@ -47,25 +51,32 @@ class Motor(object):
         self.pwmHandle.changeDutyCycle(0)
         return 0
 
+<<<<<<< HEAD:MotorHal.py
     def run_speed(self, Direction, Duration = 5, speed = 100):
         '''
         Funktion um den Motor eine gewisse Dauer drehen zu lassen
         Blockende Funktion
+=======
+        def run_speed(self, Direction, Duration = 5, speed = 100):
+            '''
+            Funktion um den Motor eine gewisse Dauer drehen zu lassen
+            Blockende Funktion
+>>>>>>> 17bd87c1d3328f3af8da960bd2d5905f343900a2:MotorControl/MotorHal.py
 
-        Parameter:
-            Direction: Richtung in die der Motor drehen soll
-                Mögliche Werte: "Forward" oder "Backward" als String
-            Duration: Dauer, in ganzen Sekunden, die er sich drehen soll
-                Default: 5
-                Mögliche Werte: Positive ganze Zahlen
-            speed: Geschwindigkeit mit der der Motor drehen soll
-                Default: 100
-                Mögliche Werte: 0-100
-        Return Values:
-            0: Success
-            1: Keine valide Richtung angegeben (Evtl falsch geschrieben?)
-            2: Keine zulässige Geschwindigkeit angegeben
-        '''
+            Parameter:
+                Direction: Richtung in die der Motor drehen soll
+                    Mögliche Werte: "Forward" oder "Backward" als String
+                Duration: Dauer, in ganzen Sekunden, die er sich drehen soll
+                    Default: 5
+                    Mögliche Werte: Positive ganze Zahlen
+                speed: Geschwindigkeit mit der der Motor drehen soll
+                    Default: 100
+                    Mögliche Werte: 0-100
+            Return Values:
+                0: Success
+                1: Keine valide Richtung angegeben (Evtl falsch geschrieben?)
+                2: Keine zulässige Geschwindigkeit angegeben
+            '''
         if(Direction == "Forward"):
             GPIO.output(self.IN1, GPIO.HIGH)
             GPIO.output(self.IN2, GPIO.LOW)
