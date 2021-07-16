@@ -164,6 +164,6 @@ class stepper(object):
 if __name__ == "__main__":
     print("Als Default werden folgende Pins verwendet:")
     print("ENABLE = 2\nDIR = 4\nPULS = 3")
-    Test = stepper(4,2,3)
-    Test.spin_FullTurns("Forward",Turns = 3)
+    Test = stepper(2,3,4)
+    Test.spin_FullTurns("Backward",Turns = 300)
     
