@@ -34,17 +34,17 @@ class Motor(object):
             1: Keine valide Richtung angegeben (Evtl falsch geschrieben?)
         '''
         if(Direction == "Forward"):
-            GPIO.output(self.IN1, GPIO.HIGH)
-            GPIO.output(self.IN2, GPIO.LOW)
+            GPIO.output(self.IN1_Pin, GPIO.HIGH)
+            GPIO.output(self.IN2_Pin, GPIO.LOW)
         elif(Direction == "Backward"):
-            GPIO.output(self.IN1, GPIO.LOW)
-            GPIO.output(self.IN2, GPIO.HIGH)
+            GPIO.output(self.IN1_Pin, GPIO.LOW)
+            GPIO.output(self.IN2_Pin, GPIO.HIGH)
         else:
             print("no valid direction")
             return 1
-        self.pwmHandle.changeDutyCycle(100)
+        self.pwmHandle.ChangeDutyCycle(100)
         time.sleep(Duration)
-        self.pwmHandle.changeDutyCycle(0)
+        self.pwmHandle.ChangeDutyCycle(0)
         return 0
 
     def run_speed(self, Direction, Duration = 5, speed = 100):
@@ -67,18 +67,18 @@ class Motor(object):
                 2: Keine zulässige Geschwindigkeit angegeben
             '''
         if(Direction == "Forward"):
-            GPIO.output(self.IN1, GPIO.HIGH)
-            GPIO.output(self.IN2, GPIO.LOW)
+            GPIO.output(self.IN1_Pin, GPIO.HIGH)
+            GPIO.output(self.IN2_Pin, GPIO.LOW)
         elif(Direction == "Backward"):
-            GPIO.output(self.IN1, GPIO.LOW)
-            GPIO.output(self.IN2, GPIO.HIGH)
+            GPIO.output(self.IN1_Pin, GPIO.LOW)
+            GPIO.output(self.IN2_Pin, GPIO.HIGH)
         else:
             print("no valid direction")
             return 1
         if(speed<0 or 100<speed):
             print("no valid speed param")
             return 2
-        self.pwmHandle.changeDutyCycle(100)
+        self.pwmHandle.ChangeDutyCycle(100)
         time.sleep(Duration)
-        self.pwmHandle.changeDutyCycle(0)
+        self.pwmHandle.ChangeDutyCycle(0)
         return 0
