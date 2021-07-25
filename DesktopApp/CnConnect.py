@@ -1,8 +1,8 @@
 from typing import List
-from PyQt6 import QtCore
+from PyQt6 import QtCore, QtGui
 from PyQt6 import uic, QtSql
-from PyQt6.QtWidgets import QTableWidgetItem, QTableWidget, QApplication, QMainWindow, QWidget
-from PyQt6.QtCore import Qt
+from PyQt6.QtWidgets import QListWidget, QMenu, QTableWidgetItem, QTableWidget, QApplication, QMainWindow, QWidget
+from PyQt6.QtCore import QEvent, Qt
 import sys
 
 import mysql.connector
@@ -166,7 +166,15 @@ class Ui(QMainWindow):
 
         self.cocktailwindow = AddCocktail()
 
+        self.cocktailList.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
+        self.cocktailList.customContextMenuRequested.connect(self.showContextMenu)
+
         self.show() # Show the GUI
+
+    def showContextMenu(self, pos):
+        menu = QMenu(self.cocktailList)
+        menu.addAction("Cocktail löschen")
+        menu.exec(self.cocktailList.mapToGlobal(pos))
 
     def cocktailAdd(self):
         """Aufrufen des zweiten Fensters
