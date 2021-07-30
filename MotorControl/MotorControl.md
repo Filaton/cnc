@@ -17,9 +17,10 @@ Damit die Software lauffähig ist, muss auf dem Zielgerät (meist Raspberry Pi) 
 ## Zeitaufteilung
 
 1. Einarbeiten in die Motorsteuerungen - 15h
-2. Hardwareaufbau - 10h
-3. Konzeptionierung und Implementierung der StepperHAL - 10h
-4. Konzeptionierung und Implementierung der MotorHAL - 10h
-5. Konzeptionierung und Implementierung der CnC-HAL - 10h
+2. Hardwareaufbau - 30h
+3. Einarbeitung in die Python Bibliotheken - 10h
+4. Konzeptionierung und Implementierung der StepperHAL - 20h
+5. Konzeptionierung und Implementierung der MotorHAL - 20h
+6. Konzeptionierung und Implementierung der CnC-HAL - 20h
 
-Gesamt: 55h
+Gesamt: 105h
