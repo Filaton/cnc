@@ -1,93 +1,82 @@
 #!/usr/bin/python3
-import RPi.GPIO as GPIO
-import time
+
+from MotorHal import Motor
 from stepHAL import stepper
-from MotorHal import motor
+import socketserver
+import http.server
+import math
+import time
 
+HEIGHT = 500
+WIDTH = 500
+DIFFROW = HEIGHT/4
+DIFFCOL = WIDTH/4
 
-class CnC(object):
-    '''
-        Klasse, die deine gesamte Cocktailmaschine repäsentiert
-    '''
-    def __init__(self,stepper1: stepper,stepper2: stepper,motor_pusher: motor, pump1: motor, pump2: motor, pump3: motor, pump4: motor, pump5: motor, pump6: motor, pump7: motor):
-        self.motor_vertical = stepper1
-        self.motor_horizontal = stepper2
-        self.motor_getränk = motor_pusher
-        self.pumps = [pump1, pump2, pump3, pump4, pump5, pump6, pump7]
-        self.driveToStart()  
-        self.HOEHE = 100
-        self.BREITE = 100
-  
+class cnc(object):
+    def __init__(self, reihenfolge_,
+    DIR_Pin_Row, ENA_Pin_Row, PUL_Pin_Row,
+    DIR_Pin_Col, ENA_Pin_Col, PUL_Pin_Col,
+    IN1_Pin_PUSH, IN2_Pin_PUSH, EN_Pin_PUSH):
+        self.order = reihenfolge_
+        self.rowMotor = stepper(DIR_Pin_Row, ENA_Pin_Row, PUL_Pin_Row)
+        self.colMotor = stepper(DIR_Pin_Col, ENA_Pin_Col, PUL_Pin_Col)
+        self.pusher =   Motor(IN1_Pin_PUSH, IN2_Pin_PUSH, EN_Pin_PUSH)
+        self.currPosRow = 0
+        self.currPosCol = 0
+
 
     def __del__(self):
-        GPIO.cleanup()
+        self.rowMotor.__del__()
+        self.colMotor.__del__()
+        self.pusher.__del__()
 
-    def driveToStart(self):
-        self.motor_vertical.spin_duration("Backward",40)
-        self.motor_horizontal.spin_duration("Backward",40)
-        self.currentPos = 0
+    def driveTo(self, bottle):
+        print(self.order.index(bottle))
+        row = math.floor(self.order.index(bottle)/4)
+        col = self.order.index(bottle)%4
+        dir = "none"
+        #
+        #   in die Reihe fahren
+        #
+        driveWay = row - self.currPosRow
+        if(driveWay > 0):
+            dir = "Forward"
+        elif(driveWay < 0):
+            dir = "Backward"
+        driveWay = abs(driveWay)*DIFFROW
+        print(dir)
+        print(driveWay)
+        self.rowMotor.spin_HalfTurns(dir, math.floor(driveWay/2))
+        self.currPosRow = row
+        print("row driven")
+        driveWay = col - self.currPosCol
+        if(driveWay > 0):
+            dir = "Forward"
+        elif(driveWay < 0):
+            dir = "Backward"
+        driveWay = abs(driveWay)*DIFFCOL
+        print(dir)
+        print(driveWay)
+        self.colMotor.spin_HalfTurns(dir, math.floor(driveWay/2))
+        self.currPosCol = col
+        print("col driven")
 
-    def driveTo(self, target):
-        '''
-        Funktion um zu einer Flasche zu fahren
+        self.pusher.run("Forward")
+        input()
+        time.sleep(10)
+        self.pusher.run("Backward")
+
+
+
+    def orderDrink(self, bottles):
+        for bottle in bottles:
+            print("driving to Bottle:" + bottle)
+            self.driveTo(bottle)
+            print("driven to bottle")
         
-        Parameter:
-            target: Ziel Position
-                Mögliche Werte: Ganze Zahl zwischen 0 und 15
-        Return Values:
-            0: Success
-            1: Target out of Bounce
-        '''
-        if self.currentPos == target:
-            return 0
-        if target < 0 or target > 15:
-            return 1
-        target_vert = target%4
-        target_hori = target/4
-        currentPos_vert = self.currentPos%4
-        currentPos_hori = self.currentPos/4
-        if(target_vert > currentPos_vert):
-            drive_vert = target_vert-currentPos_vert
-            drive_vert = (self.HOEHE/4) * drive_vert
-            self.motor_vertical.spin_HalfTurns("Forward", drive_vert/2)
-        elif(target_vert < currentPos_vert):
-            drive_vert = currentPos_vert-target_vert
-            drive_vert = (self.HOEHE/4) * drive_vert
-            self.motor_vertical.spin_HalfTurns("Backward", drive_vert/2)
-        if(target_hori > currentPos_hori):
-            drive_hori = target_hori-currentPos_hori
-            drive_hori = (self.HOEHE/4) * drive_hori
-            self.motor_horizontal.spin_HalfTurns("Forward", drive_hori/2)
-        elif(target_hori < currentPos_hori):
-            drive_hori = currentPos_hori-target_hori
-            drive_hori = (self.HOEHE/4) * drive_hori
-            self.motor_horizontal.spin_HalfTurns("Backward", drive_hori/2)
-        self.currentPos = target
-        return 0
 
-    def getDrink_Bottle(self):
-        '''
-        Funtkion um den Augießer zu leeren
-
-        Return Values:
-            0: success
-        '''
-        self.motor_getränk.run("Forward")
-        time.sleep(5)
-        self.motor_getränk.run("Backward")
-        return 0
-
-    def getDrink_Kanister(self, number, duration):
-        '''
-        Funktion um die Pumpen zu aktivieren
-
-        Parameter:
-            number: nummer der Pumpe (aus der Config)
-                Mögliche Werte: ganze Zahlen größer null
-            duration: Dauer in ganzen Sekunden
-                Mögliche Werte: ganze Zahlen größer null
-            Return Values:
-                0: success
-                2: keine valide Duration
-        '''
-        return self.pumps[number].run("Forward", duration)
+if __name__ == "__main__":
+    ownlist = ["test1_1","test1_2","test1_3","test1_4","test2_1","test2_2","test2_3","test2_4","test3_1","test3_2","test3_3","test3_4","test4_1","test4_2","test4_3","test4_4"]
+    ownCnC = cnc(ownlist,2,3,4,27,22,17,5,6,13)
+    input()
+    ownCnC.orderDrink(["test1_1"])
