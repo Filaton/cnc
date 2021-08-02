@@ -18,6 +18,7 @@ Probleme:
  -  Blazor Webassembly hat im speziellen ein Problem sich mit einer MySql Datenbank zu verbinden
  -  Nur mit einer Blazor Web Assembly Application konnte eine progressive Web App erstellt werden	
  -  Auch bei einem lesenden Zugriff auf die Datenbank können noch falsche Informationen übermittelt werden
+ -  Schlechte Übertragung von Daten zwischen Razor Komponente und Java Script File
    
    Einteilung der Zeit
 
