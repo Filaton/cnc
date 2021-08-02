@@ -1,7 +1,7 @@
 from typing import List
 from PyQt6 import QtCore, QtGui
 from PyQt6 import uic, QtSql
-from PyQt6.QtWidgets import QListWidget, QMenu, QTableWidgetItem, QTableWidget, QApplication, QMainWindow, QWidget
+from PyQt6.QtWidgets import QDialog, QDialogButtonBox, QListWidget, QMenu, QTableWidgetItem, QTableWidget, QApplication, QMainWindow, QWidget
 from PyQt6.QtCore import QEvent, Qt
 import sys
 
@@ -161,34 +161,78 @@ class Ui(QMainWindow):
         self.setWindowTitle("CnConnect")
 
         self.actionCocktail_hinzufuegen.triggered.connect(self.cocktailAdd)
+        self.RefreshButton.clicked.connect(self.refreshList)
         
         self.loadCocktails()
 
         self.cocktailwindow = AddCocktail()
 
-        self.cocktailList.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
-        self.cocktailList.customContextMenuRequested.connect(self.showContextMenu)
+        # self.cocktailList.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
+        # self.cocktailList.customContextMenuRequested.connect(self.showContextMenu)
+
+        self.cocktailList.installEventFilter(self)
 
         self.show() # Show the GUI
 
-    def showContextMenu(self, pos):
-        menu = QMenu(self.cocktailList)
-        menu.addAction("Cocktail löschen")
-        menu.exec(self.cocktailList.mapToGlobal(pos))
+    def eventFilter(self, source, event) -> bool:
+        if (event.type() == QtGui.QContextMenuEvent.Type.ContextMenu and
+            source is self.cocktailList):
+            menu = QMenu(self.cocktailList)
+            menu.addAction('Cocktail löschen')
+            if menu.exec(event.globalPos()):
+                self.cocktailDelete(self.cocktailList.currentRow())
+                # item = source.itemAt(event.pos())
+                # dialog = DelDialog(self)
+                # if dialog.exec() == QDialog.accepted:
+                #     print('Accepted')
+                # else:
+                #     print('Cancelled')
+                # dialog.deleteLater()
+            return True
+        return super().eventFilter(source, event)
 
     def cocktailAdd(self):
         """Aufrufen des zweiten Fensters
         """
         self.cocktailwindow.show()
 
+    def cocktailDelete(self, ID):
+        cursor = myDB.cnx.cursor()
+        data = (ID,)
+        del_cocktail = ("DELETE FROM cocktails WHERE (ID = (%s));")
+        del_zutatvon = ("DELETE FROM zutat_von WHERE (CocktailID = (%s));")
+        cursor.execute(del_cocktail, data)
+        cursor.execute(del_zutatvon, data)
+        myDB.cnx.commit()
+        cursor.close()
+        self.cocktailList.takeItem(ID)
+
     def loadCocktails(self):
         """Laden der bereits vorhandenen Cocktails
         """
         cursor = myDB.cnx.cursor()
-        get_cocktailnames = ("SELECT Name FROM cocktails")
+        get_cocktailnames = ("SELECT Name FROM cocktails;")
         cursor.execute(get_cocktailnames)
         for (Name, ) in cursor:
             self.cocktailList.addItem(Name)
+
+    def refreshList(self):
+        self.cocktailList.clear()
+        self.loadCocktails()
+
+# class DelDialog(QDialog):
+#     def __init__(self, callwindow: Ui):
+#         super().__init__()
+#         uic.loadUi('deleteDialog.ui', self)
+
+#         self.buttonBox.accepted.connect(self.cdelete)
+#         self.buttonBox.rejected.connect(self.cabort)
+
+#     def cdelete(self):
+#         self.close()
+
+#     def cabort(self):
+#         self.close()
 
 
 app = QApplication(sys.argv) # Create an instance of QtWidgets.QApplication
