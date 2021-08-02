@@ -1,9 +1,11 @@
 #!/usr/bin/python3
 import http.server
+from http import HTTPStatus
 import socketserver
 import logging
 from multiprocessing import Process
 import json
+import time
 import cgi 
 
 #logging.basicConfig(filename="./log.log", format='%(asctime)s %(message)s', level=logging.INFO)
@@ -21,38 +23,31 @@ CommandList = {
 
 class ServerHandler(http.server.BaseHTTPRequestHandler):
     def _set_headers(self):
-        self.send_response(200)
+        self.send_response(HTTPStatus.OK.value)
         self.send_header('Content-type', 'application/json')
+        # Allow requests from any origin, so CORS policies don't
+        # prevent local development.
+        self.send_header('Access-Control-Allow-Origin', '*')
         self.end_headers()
-        
-    def do_HEAD(self):
-        self._set_headers()
-        
-    # GET sends back a Hello world message
+
     def do_GET(self):
         self._set_headers()
-        self.wfile.write(json.dumps({'hello': 'world', 'received': 'ok'}).encode())
-        
-    # POST echoes the message adding a JSON field
+        self.wfile.write(json.dumps({"Hello": "There!"}).encode('utf-8'))
+
     def do_POST(self):
-        ctype, pdict = cgi.parse_header(self.headers.get('content-type'))
-        
-        # refuse to receive non-json content
-        if ctype != 'application/json':
-            self.send_response(400)
-            self.end_headers()
-            return
-            
-        # read the message and convert it into a python dictionary
         length = int(self.headers.get('content-length'))
         message = json.loads(self.rfile.read(length))
-        
-        # add a property to the object, just to mess with data
-        message['received'] = 'ok'
-        
-        # send the message back
+        message['date_ms'] = int(time.time()) * 1000
         self._set_headers()
-        self.wfile.write(json.dumps(message).encode())
+        self.wfile.write(json.dumps({'success': True}).encode('utf-8'))
+
+    def do_OPTIONS(self):
+        # Send allow-origin header for preflight POST XHRs.
+        self.send_response(HTTPStatus.NO_CONTENT.value)
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Access-Control-Allow-Methods', 'GET, POST')
+        self.send_header('Access-Control-Allow-Headers', 'content-type')
+        self.end_headers()
 
 class RequestHandler(object):
     """
