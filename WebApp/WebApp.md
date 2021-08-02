@@ -9,6 +9,7 @@ Geplante Implementierung:
 Erreichte Implementierung:
  -   Blazor Web Applikation
  -   Alle Getränke und die daraus resultierenden Cocktails werden angezeigt und können ausgewählt werden
+ -   Die Position der Getränke kann durch den Benutzer überschrieben werden
  -   Anbindung an eine MySql Datenbank
 
 Probleme:
@@ -22,11 +23,12 @@ Probleme:
 
   -   Notwendige Rechercehn zur Arbeitsweise einer Web App 15 Stunden
   -   Erlernung von HTML spezifischen Kentnissen 6 Stunden 
-  -   Notwendige Software herunterzuladen und zu instalieren 1,5 Stunden
-  -   Einarbeitung in Angular und Java Script 5 Stunden
-  -   Einarbeitung in 10 Stunden
+  -   Notwendige Software herunterzuladen und zu instalieren 3 Stunden
+  -   Einarbeitung in Angular 3 
+  -   Einarabeitung in Java Script 5 Stunden
+  -   Einarbeitung in Blazor und c# 10 Stunden
   -   Planung der Web App 20 Stunden
-  -   Programmierung der Web App 35 Stunden
+  -   Programmierung der Web App 45 Stunden
   -   Anbindung der Datenbank 15 Stunden 
-  -   Debugging 20 Stunden
+  -   Debugging 25 Stunden
   -   Anbindung der Web App an das Projekt 3 Stunden 
