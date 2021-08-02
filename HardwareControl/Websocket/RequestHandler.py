@@ -3,6 +3,8 @@ import http.server
 import socketserver
 import logging
 from multiprocessing import Process
+import json
+import cgi 
 
 #logging.basicConfig(filename="./log.log", format='%(asctime)s %(message)s', level=logging.INFO)
 logging.basicConfig(format='%(asctime)s %(message)s', level=logging.DEBUG)
@@ -18,27 +20,39 @@ CommandList = {
 
 
 class ServerHandler(http.server.BaseHTTPRequestHandler):
+    def _set_headers(self):
+        self.send_response(200)
+        self.send_header('Content-type', 'application/json')
+        self.end_headers()
+        
+    def do_HEAD(self):
+        self._set_headers()
+        
+    # GET sends back a Hello world message
     def do_GET(self):
-        http.server.SimpleHTTPRequestHandler.do_GET(self)
-
+        self._set_headers()
+        self.wfile.write(json.dumps({'hello': 'world', 'received': 'ok'}).encode())
+        
+    # POST echoes the message adding a JSON field
     def do_POST(self):
-        logging.debug(self.version_string())
-        logging.debug("PostRequestHandler - Start")
-        global CommandList
-        content_length = int(self.headers['Content-Length']) # <--- Gets the size of data
-        self.data = self.rfile.read(content_length).strip() # <--- Gets the data itself
-        logging.debug(self.data)
-        #func = CommandList.get(post_data[0])
-        #ret_data = func(post_data[1])
-        self.wfile.write(self._html(self.data))
-        logging.debug("Post Request Handled - RETURNING")
-
-    def _html(self, message):
-        """This just generates an HTML document that includes `message`
-        in the body. Override, or re-write this do do more interesting stuff.
-        """
-        content = f"<html><body><h1>{message}</h1></body></html>"
-        return content.encode("utf8")  # NOTE: must return a bytes object!
+        ctype, pdict = cgi.parse_header(self.headers.get('content-type'))
+        
+        # refuse to receive non-json content
+        if ctype != 'application/json':
+            self.send_response(400)
+            self.end_headers()
+            return
+            
+        # read the message and convert it into a python dictionary
+        length = int(self.headers.get('content-length'))
+        message = json.loads(self.rfile.read(length))
+        
+        # add a property to the object, just to mess with data
+        message['received'] = 'ok'
+        
+        # send the message back
+        self._set_headers()
+        self.wfile.write(json.dumps(message).encode())
 
 class RequestHandler(object):
     """
