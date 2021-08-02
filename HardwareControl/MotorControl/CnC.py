@@ -87,8 +87,11 @@ class cnc(object):
     def setKonfig_Bottle(self, newOrder):
         self.order = newOrder
 
+    def setKonfig_Kan(self, newOrder):
+        self.order_kan = newOrder
+
 if __name__ == "__main__":
     ownlist = ["test1_1","test1_2","test1_3","test1_4","test2_1","test2_2","test2_3","test2_4","test3_1","test3_2","test3_3","test3_4","test4_1","test4_2","kanister","test4_4"]
-    ownCnC = cnc(ownlist,["test","test2"]2,3,4,27,22,17,5,6,13)
+    ownCnC = cnc(ownlist,["test","test2"],2,3,4,27,22,17,5,6,13)
     input()
     ownCnC.orderDrink(["test1_1", "test2"])
