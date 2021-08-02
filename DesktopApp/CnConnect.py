@@ -14,7 +14,7 @@ class SQLDatabase:
     """
     def __init__(self) -> None:
         try:
-            self.cnx = mysql.connector.connect(user='cnc', database='CnC', host = 'filatonsserver.ddns.net', password = getpass())
+            self.cnx = mysql.connector.connect(user='cnc', database='CnC', host = 'filatonsserver.ddns.net', password = getpass(), port = 51001)
             if self.cnx.is_connected():
                 print('Connection established')
         except mysql.connector.Error as err:
