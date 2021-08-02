@@ -28,7 +28,7 @@ HAL für Motoren der Cocktailmaschine | 30h | MAH
 HAL für Pumpen der CnC | 25h | MAH
 Ansteuerung des TFT Displays | TODO | MAH, ABM
 Datenbankserver mit DynDNS – Anbindung | 30h | ABM
-Progressive Web App, mithilfe derer man die Cocktails bestellt werden können. | 100h | ZAP
+Progressive Web App, mithilfe derer man die Cocktails bestellt werden können. | 150h | ZAP
 Desktop-App um Cocktails in die Datenbank einbinden zu können | 65h | ABM
 
 ## Inhalt
