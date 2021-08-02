@@ -25,8 +25,8 @@ Probleme:
   -   Notwendige Software herunterzuladen und zu instalieren 1,5 Stunden
   -   Einarbeitung in Angular und Java Script 5 Stunden
   -   Einarbeitung in 10 Stunden
-  -   Planung der Web App 10 Stunden
-  -   Programmierung der Web App 25 Stunden
+  -   Planung der Web App 20 Stunden
+  -   Programmierung der Web App 35 Stunden
   -   Anbindung der Datenbank 15 Stunden 
-  -   Debugging 10 Stunden
+  -   Debugging 20 Stunden
   -   Anbindung der Web App an das Projekt 3 Stunden 
