@@ -5,20 +5,13 @@ import socketserver
 import logging
 from multiprocessing import Process
 import json
-import time
-import cgi 
+import cgi
+from test import doAlk
 
 #logging.basicConfig(filename="./log.log", format='%(asctime)s %(message)s', level=logging.INFO)
 logging.basicConfig(format='%(asctime)s %(message)s', level=logging.DEBUG)
 socketserver.TCPServer.allow_reuse_address = True
-
-def standard_func(input):
-    return "0"
-
-CommandList = {
-    "null": standard_func
-}
-
+CommandList = ["KONFIG_ALK", "KONFIG_KAN", "ORDER"]
 
 
 class ServerHandler(http.server.BaseHTTPRequestHandler):
@@ -34,10 +27,31 @@ class ServerHandler(http.server.BaseHTTPRequestHandler):
         self._set_headers()
         self.wfile.write(json.dumps({"Hello": "There!"}).encode('utf-8'))
 
+    def doAlk(self):
+        pass
+
+    def doPass(self):
+        pass
+
+    def order(self):
+        pass
+
     def do_POST(self):
         length = int(self.headers.get('content-length'))
         message = json.loads(self.rfile.read(length))
-        message['date_ms'] = int(time.time()) * 1000
+        try:
+            command = message["Befehl"]
+            if not command in CommandList:
+                raise KeyError
+            if command is "KONFIG_ALK":
+                doAlk()
+            
+        
+        except KeyError:
+            logging.debug("no Valid CnC Command!")
+            self._set_headers()
+            self.wfile.write(json.dumps({'success': False, 'message': "no valid CnC-Command!"}).encode())
+            return
         self._set_headers()
         self.wfile.write(json.dumps({'success': True}).encode('utf-8'))
 
@@ -48,35 +62,6 @@ class ServerHandler(http.server.BaseHTTPRequestHandler):
         self.send_header('Access-Control-Allow-Methods', 'GET, POST')
         self.send_header('Access-Control-Allow-Headers', 'content-type')
         self.end_headers()
-
-class RequestHandler(object):
-    """
-    RequestHandler HandlerClass for extended Abstraction
-
-    Args:
-        commandList_setter ([FunctionList]): [Contains a function-Dict, containing all possible CommandNames and used Functions]
-    """
-    def __init__(self,commandList_setter, start):
-        global CommandList
-        CommandList = commandList_setter
-        Server = socketserver.TCPServer(("localhost",8000),ServerHandler)
-        self.process = Process(target=Server.serve_forever())
-        if ( start == True):
-            self.start_server()
-    
-    def start_server(self):
-        self.process.start()
-    
-    def join(self):
-        self.process.join()
-
-def test(input):
-    logging.debug("in TEST")
-    return "DONE"
-
-tempCommand = {
-    "test": test
-}
 
 if __name__ == "__main__":
     Server = socketserver.TCPServer(("",8000),ServerHandler)
