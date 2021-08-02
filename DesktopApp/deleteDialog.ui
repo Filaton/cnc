@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>365</width>
-    <height>107</height>
+    <height>101</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -32,6 +32,9 @@
      <property name="standardButtons">
       <set>QDialogButtonBox::No|QDialogButtonBox::Yes</set>
      </property>
+     <property name="centerButtons">
+      <bool>true</bool>
+     </property>
     </widget>
    </item>
   </layout>
@@ -45,12 +48,12 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>227</x>
+     <y>90</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
-     <y>274</y>
+     <y>99</y>
     </hint>
    </hints>
   </connection>
@@ -61,12 +64,12 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>295</x>
+     <y>90</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
-     <y>274</y>
+     <y>99</y>
     </hint>
    </hints>
   </connection>
