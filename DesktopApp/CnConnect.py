@@ -167,9 +167,6 @@ class Ui(QMainWindow):
 
         self.cocktailwindow = AddCocktail()
 
-        # self.cocktailList.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
-        # self.cocktailList.customContextMenuRequested.connect(self.showContextMenu)
-
         self.cocktailList.installEventFilter(self)
 
         self.show() # Show the GUI
