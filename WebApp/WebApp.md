@@ -17,7 +17,7 @@ Probleme:
  -  Blazor Web Assembly konnte nur schwer mit der Datenbank verknüpfen da es ein Front end Framework ist und eine API benötigt hätte
  -  Blazor Webassembly hat im speziellen ein Problem sich mit einer MySql Datenbank zu verbinden
  -  Nur mit einer Blazor Web Assembly Application konnte eine progressive Web App erstellt werden	
- -  Auch bei einem lesenden ZUgriff auf die Datenbank können noch falsche Informationen übermittelt werden
+ -  Auch bei einem lesenden Zugriff auf die Datenbank können noch falsche Informationen übermittelt werden
    
    Einteilung der Zeit
 
@@ -26,9 +26,10 @@ Probleme:
   -   Notwendige Software herunterzuladen und zu instalieren 3 Stunden
   -   Einarbeitung in Angular 3 
   -   Einarabeitung in Java Script 5 Stunden
-  -   Einarbeitung in Blazor und c# 10 Stunden
+  -   Einarbeitung in Blazor und c# 7 Stunden
+  -   Anbindung der Web App an das Projekt 6
   -   Planung der Web App 20 Stunden
-  -   Programmierung der Web App 45 Stunden
+  -   Programmierung der Web App 40 Stunden
   -   Anbindung der Datenbank 15 Stunden 
-  -   Debugging 25 Stunden
-  -   Anbindung der Web App an das Projekt 3 Stunden 
+  -   Debugging 30 Stunden
+  
