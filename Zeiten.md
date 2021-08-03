@@ -18,6 +18,8 @@ Zusammenfassung aller Einzellisten aus den verschiedenen READMEs.
 
 Gesamt: 195h
 
+[HardwareControl.md](HardwareControl/HardwareControl.md)
+
 ## WebApp - Philipp Zaumseil
 
 1. Notwendige Rechercehn zur Arbeitsweise einer Web App - 15 Stunden
@@ -30,9 +32,11 @@ Gesamt: 195h
 8. Planung der Web App - 20 Stunden
 9. Programmierung der Web App - 40 Stunden
 10. Anbindung der Datenbank - 15 Stunden
-11. Debugging - 30 Stunden
+11. Debugging - 33 Stunden
 
-Gesamt: 150h
+Gesamt: 153h
+
+[Webapp.md](WebApp/WebApp.md)
 
 ## DesktopApp - Moritz Abelen
 
@@ -48,6 +52,8 @@ Gesamt: 150h
 10. Githubverwaltung und Toolchain - 10h
 
 Gesamt: 165h
+
+[DesktopApp.md](DesktopApp\DesktopApp.md)
 
 ## Gemeinsame Stunden
 
