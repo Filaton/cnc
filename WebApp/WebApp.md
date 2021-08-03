@@ -25,7 +25,7 @@ Probleme:
   -   Notwendige Rechercehn zur Arbeitsweise einer Web App 15 Stunden
   -   Erlernung von HTML spezifischen Kentnissen 6 Stunden 
   -   Notwendige Software herunterzuladen und zu instalieren 3 Stunden
-  -   Einarbeitung in Angular 3 
+  -   Einarbeitung in Angular 3 Stunden
   -   Einarabeitung in Java Script 5 Stunden
   -   Einarbeitung in Blazor und c# 7 Stunden
   -   Anbindung der Web App an das Projekt 6 Stunden
