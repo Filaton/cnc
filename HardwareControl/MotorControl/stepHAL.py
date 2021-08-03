@@ -24,7 +24,10 @@ class stepper(object):
         GPIO.setup(self.PUL_PIN, GPIO.OUT)
 
     def __del__(self):
-        GPIO.cleanup()
+        try:
+            GPIO.cleanup()
+        except:
+            pass
 
     def spin_FullTurns(self, Direction, Turns = 1, Speed = 0.0006):
         '''

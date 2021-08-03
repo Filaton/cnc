@@ -16,7 +16,10 @@ class Motor(object):
         self.pwmHandle.start(0)
 
     def __del__(self):
-        GPIO.cleanup()
+        try:
+            GPIO.cleanup()
+        except:
+            pass
 
     def run(self, Direction, Duration = 5):
         '''
