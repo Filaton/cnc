@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 
-from MotorHal import Motor
-from stepHAL import stepper
+from MotorControl.MotorHal import Motor
+from MotorControl.stepHAL import stepper
 import socketserver
 import http.server
 import math
@@ -71,8 +71,10 @@ class cnc(object):
     
     def getDrink(self, bottle): #TODO Implement Function!
         if(bottle in order_kan):
+            pass
             #Activate Pumps to get specified Ingredient
         elif(bottle in order):
+            pass
             #Activate Pusher to get specified Ingredient
         else:
             return "1"
