@@ -14,8 +14,10 @@ Erstellen einer Cocktailmaschine mit Unterstützung für 16 Flaschen und 7 Kanis
 
 ## Aktueller Stand
 
-- Grundgerüst und Motoren fertig gestellt (nur Kupplungen fehlen)
+- Grundgerüst und Motoren fertig gestellt (Durch Testing wurde herausgefunden, dass die Balken noch weiter herabgesetzt werden müssen)
 - MotorHal fertiggestellt
+- Websocket fertiggestellt
+- TopLevel für Hardware mit Websocket fertiggestellt
 - WebApp größtenteils fertiggestellt
 - Desktop App fertiggestellt (mehr Funktionen geplant)
 
@@ -36,5 +38,5 @@ Desktop-App um Cocktails in die Datenbank einbinden zu können | 65h | ABM
 Inhalt  |  Beschreibung
 -------- |  ------------
 [Desktop App](DesktopApp/DesktopApp.md) | The Desktop App (CnConnector)
-[Motor HAL](MotorControl/MotorControl.md) | The Motor Control
-[Web App](WebApp/WebApp.md) | The Web App
+[Web App](WebApp/WebApp.md) | The Web App (Blazor App)
+[Hardwarecontrol](HardwareControl/HardwareControl.md) | Hardwareabstraktionlayer (CnControl)
