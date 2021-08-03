@@ -38,5 +38,5 @@ Desktop-App um Cocktails in die Datenbank einbinden zu können | 65h | ABM
 Inhalt  |  Beschreibung
 -------- |  ------------
 [Desktop App](DesktopApp/DesktopApp.md) | The Desktop App (CnConnector)
-[Web App](WebApp/WebApp.md) | The Web App (Blazor App)
+[Web App](WebApp/WebApp.md) | The Web App (CnChoose)
 [Hardwarecontrol](HardwareControl/HardwareControl.md) | Hardwareabstraktionlayer (CnControl)
