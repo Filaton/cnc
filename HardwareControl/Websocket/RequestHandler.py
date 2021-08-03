@@ -5,8 +5,6 @@ import socketserver
 import logging
 from multiprocessing import Process
 import json
-import cgi
-from test import doAlk
 
 #logging.basicConfig(filename="./log.log", format='%(asctime)s %(message)s', level=logging.INFO)
 logging.basicConfig(format='%(asctime)s %(message)s', level=logging.DEBUG)
@@ -27,13 +25,13 @@ class ServerHandler(http.server.BaseHTTPRequestHandler):
         self._set_headers()
         self.wfile.write(json.dumps({"Hello": "There!"}).encode('utf-8'))
 
-    def doAlk(self):
+    def doAlk(self, ArrID, ID):
         pass
 
-    def doPass(self):
+    def doKan(self, ArrID, ID):
         pass
 
-    def order(self):
+    def order(self, AlkID, KanID):
         pass
 
     def do_POST(self):
@@ -44,7 +42,11 @@ class ServerHandler(http.server.BaseHTTPRequestHandler):
             if not command in CommandList:
                 raise KeyError
             if command is "KONFIG_ALK":
-                doAlk()
+                self.doAlk(message["ArrID"], message["ID"])
+            elif command is "KONFIG_KAN":
+                self.doKan(message["ArrID"], message["ID"])
+            elif command is "ORDER":
+                self.order(message["Zutaten_Alk"], message["Zutaten_Kan"])
             
         
         except KeyError:
