@@ -33,4 +33,4 @@ Probleme:
   -   Programmierung der Web App 40 Stunden
   -   Anbindung der Datenbank 15 Stunden 
   -   Debugging 30 Stunden
-  
+  Gesamt 150 Stunden
