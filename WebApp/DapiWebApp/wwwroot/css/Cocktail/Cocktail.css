@@ -1,0 +1,21 @@
+
+
+.Getränke{
+  cursor: pointer;
+}
+
+
+
+.grid-container {
+  width: 430px;
+  display: grid;
+  grid-template-columns: 100px 100px 100px 100px;
+  grid-template-rows: 100px 100px 100px 100px;
+  grid-gap: 10px;
+  background-color: rgb(150, 150, 150);
+  padding: 10px;
+}
+
+.grid-container > div {
+  background-color: rgba(255, 255, 255, 0.8);
+}

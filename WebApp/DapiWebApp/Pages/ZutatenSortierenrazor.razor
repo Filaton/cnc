@@ -1,0 +1,63 @@
+﻿@page "/ZutatenSortieren"
+@using Microsoft.AspNetCore.Components.Rendering
+@using DataLibrary
+@using DapiWebApp.Models
+@using Microsoft.Extensions.Configuration
+@using System.Windows.Forms
+@inject IDataAccess _Cocktails
+@inject IConfiguration _config
+
+<h3>Flaschen Sortieren</h3>
+<div class="grid-container">
+    <div ondrop="drop(event,0)" ondragover="allowDrop(event)"></div>
+    <div ondrop="drop(event,1)" ondragover="allowDrop(event)"></div>
+    <div ondrop="drop(event,2)" ondragover="allowDrop(event)"></div>
+    <div ondrop="drop(event,3)" ondragover="allowDrop(event)"></div>
+
+    <div ondrop="drop(event,4)" ondragover="allowDrop(event)"></div>
+    <div ondrop="drop(event,5)" ondragover="allowDrop(event)"></div>
+    <div ondrop="drop(event,6)" ondragover="allowDrop(event)"></div>
+    <div ondrop="drop(event,7)" ondragover="allowDrop(event)"></div>
+
+    <div ondrop="drop(event,8)" ondragover="allowDrop(event)"></div>
+    <div ondrop="drop(event,9)" ondragover="allowDrop(event)"></div>
+    <div ondrop="drop(event,10)" ondragover="allowDrop(event)"></div>
+    <div ondrop="drop(event,11)" ondragover="allowDrop(event)"></div>
+
+    <div ondrop="drop(event,12)" ondragover="allowDrop(event)"></div>
+    <div ondrop="drop(event,13)" ondragover="allowDrop(event)"></div>
+    <div ondrop="drop(event,14)" ondragover="allowDrop(event)"></div>
+    <div ondrop="drop(event,15)" ondragover="allowDrop(event)"></div>
+
+</div>
+
+
+@{ testFunktion(__builder);}
+
+
+
+
+@code {
+    List<Zutaten> ZutatenListe = new List<Zutaten>();
+    string sql = "select ID, Image from CnC.zutaten where Flasche =1;";
+    protected override async Task OnInitializedAsync()
+    {
+        ZutatenListe =await _Cocktails.LoadData<Zutaten, dynamic>(sql, new { }, _config.GetConnectionString("default")); //Geht
+    }
+    void testFunktion(RenderTreeBuilder __builder)
+    {
+
+        foreach(var Zutat in ZutatenListe)
+        {
+            if (Zutat.Image == null)
+            {
+                Zutat.Image = "0";
+            }
+                    <img id=@Zutat.ID.ToString() class="Getränke" src=@Zutat.Image.ToString() alt="Bild" draggable="true" ondragstart="drag(event)" height="100" width="100" />
+        }
+                
+    }
+
+
+
+}

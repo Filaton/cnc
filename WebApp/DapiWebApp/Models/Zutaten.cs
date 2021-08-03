@@ -9,6 +9,8 @@ namespace DapiWebApp.Models
     {
         public int ID { get; set; }
         public string Name { get; set; }
-        public int Alhoholisch { get; set; }
+        public int Flasche { get; set; }
+
+        public string Image { get; set; }
     }
 }
