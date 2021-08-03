@@ -1,9 +1,11 @@
 from typing import List
 from PyQt6 import QtCore, QtGui
 from PyQt6 import uic, QtSql
-from PyQt6.QtWidgets import QDialog, QDialogButtonBox, QListWidget, QMenu, QTableWidgetItem, QTableWidget, QApplication, QMainWindow, QWidget
+from PyQt6.QtWidgets import QDialog, QDialogButtonBox, QListWidget, QMenu, QSizePolicy, QTableWidgetItem, QTableWidget, QApplication, QMainWindow, QWidget
 from PyQt6.QtCore import QEvent, Qt
 import sys
+from PyQt6.uic.load_ui import loadUi
+from PyQt6.uic.uiparser import QtWidgets
 
 import mysql.connector
 from mysql.connector import errorcode
@@ -78,7 +80,7 @@ class Cocktail:
 class AddCocktail(QWidget):
     """Qt Klasse zum Hinzufuegen eines Cocktails
     """
-    def __init__(self):
+    def __init__(self, parent):
         """Init der Buttons und erste Datenbankabfragen
         """
         super().__init__()
@@ -149,6 +151,39 @@ class AddCocktail(QWidget):
         """
         self.close()
 
+class CocktailInfo(QWidget):
+    def __init__(self, parent, ID):
+        super().__init__()
+        uic.loadUi('cocktailInfo.ui', self)
+        
+        self.zutatenlist = []
+        pixmap = QtGui.QPixmap('Pics/noAlk.png')
+        self.cocktailPic.setPixmap(pixmap)
+
+        self.pullCocktailInfo(ID)
+
+    def pullCocktailInfo(self, ID):
+        cursor = myDB.cnx.cursor()
+
+        data = (ID,)
+        get_zutaten = ("SELECT Zutat, Menge FROM Cocktail_mit_zutaten WHERE Cocktails = (SELECT Name FROM cocktails WHERE ID = (%s));")
+        cursor.execute(get_zutaten, data)
+        zutatenpull = cursor.fetchall()
+        
+        self.zutatenTable.setRowCount(len(zutatenpull))
+
+        count = 0
+        for i in zutatenpull:
+            zutatenitem = QTableWidgetItem(i[0])
+            # zutatenitem.setTextAlignment(Qt.AlignmentFlag.AlignLeft)
+            mengenitem = QTableWidgetItem(str(i[1]) + "cl")
+            # mengenitem.setTextAlignment(Qt.AlignmentFlag.AlignRight)
+            self.zutatenTable.setItem(count, 0, zutatenitem)
+            self.zutatenTable.setItem(count, 1, mengenitem)
+            count = count + 1
+        
+        self.zutatenTable.resizeColumnsToContents()
+
 class Ui(QMainWindow):
     """Hauptteil der Anwendung
     """
@@ -165,9 +200,10 @@ class Ui(QMainWindow):
         
         self.loadCocktails()
 
-        self.cocktailwindow = AddCocktail()
+        # self.infococktailwindow
 
         self.cocktailList.installEventFilter(self)
+        self.cocktailList.itemDoubleClicked.connect(self.cocktailInfo)
 
         self.show() # Show the GUI
 
@@ -191,6 +227,7 @@ class Ui(QMainWindow):
     def cocktailAdd(self):
         """Aufrufen des zweiten Fensters
         """
+        self.cocktailwindow = AddCocktail(self)
         self.cocktailwindow.show()
 
     def cocktailDelete(self, ID):
@@ -212,10 +249,16 @@ class Ui(QMainWindow):
         cursor.execute(get_cocktailnames)
         for (Name, ) in cursor:
             self.cocktailList.addItem(Name)
+        cursor.close()
 
     def refreshList(self):
         self.cocktailList.clear()
         self.loadCocktails()
+
+    def cocktailInfo(self):
+        cocid = self.cocktailList.currentRow()
+        self.infococktailwindow = CocktailInfo(self, cocid)
+        self.infococktailwindow.show()
 
 # class DelDialog(QDialog):
 #     def __init__(self, callwindow: Ui):
