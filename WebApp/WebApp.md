@@ -28,7 +28,7 @@ Probleme:
   -   Einarbeitung in Angular 3 
   -   Einarabeitung in Java Script 5 Stunden
   -   Einarbeitung in Blazor und c# 7 Stunden
-  -   Anbindung der Web App an das Projekt 6
+  -   Anbindung der Web App an das Projekt 6 Stunden
   -   Planung der Web App 20 Stunden
   -   Programmierung der Web App 40 Stunden
   -   Anbindung der Datenbank 15 Stunden 
