@@ -25,7 +25,13 @@ In diesem können neue Cocktails hinzugefügt werden (mithilfe von Zutaten in Dr
 
 1. Einarbeiten in Qt Framework - 15h
 2. Erstellen der ersten UI (rein in Python) - 10h
-3. Verwendung des Qt Designers für neuere UI - 5h
-4. Erstellen des Codes für die Oberfläche - 5h
-5. Zusammenführen von UI Designs und Code + Probieren verschiedener Packages - 15h
-6. Anbindung an Datenbank - 10h
+3. Verwendung des Qt Designers für neuere UI - 15h
+4. Erstellen des Codes für die Oberfläche - 15h
+5. Zusammenführen von UI Designs und Code + Probieren verschiedener Packages - 20h
+6. Anbindung an Datenbank - 15h
+7. Programmierung weiterer DesktopApp Features - 40h
+8. Erstellen eines Docker Apache Servers - 10h
+9. Serverwartung - 15h
+10. Githubverwaltung und Toolchain - 10h
+
+Gesamt: 165h
