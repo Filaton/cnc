@@ -37,49 +37,113 @@
 
     <h1>Crushed`n Cocktails</h1>
 
-    <script>
-        function allowDrop(ev) {
-            ev.preventDefault();
-        }
+    @*@<script>
 
-        function drag(ev) {
-            ev.dataTransfer.setData("image", ev.target.id);
-        }
+            function allowDrop(ev) {
+                ev.preventDefault();
+            }
 
-        function drop(ev) {
-            ev.preventDefault();
-            var data = ev.dataTransfer.getData("image");
-            ev.target.appendChild(document.getElementById(data));
-        }
-    </script>
+            function drag(ev) {
+                console.log(ev.target.id);
+                ev.dataTransfer.setData("image", ev.target.id);
+            }
 
-    
+            function drop(ev, feld) {
+                console.log(feld);
+                ev.preventDefault();
+                var data = ev.dataTransfer.getData("image");
+                ev.target.appendChild(document.getElementById(data));
+                return feld;
+            }
+            function addCocktail( ID, name,  Bild) {
+                var cocktail_ID = ID;
+                var cocktail_Name = name;
+                var cocktail_Bild = Bild
+            }
 
-        <div class="grid-container">
-            <div ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-            <div ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-            <div ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-            <div ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+        </script>*@
 
-            <div ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-            <div ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-            <div ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-            <div ondrop="drop(event)" ondragover="allowDrop(event)"></div>
 
-            <div ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-            <div ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-            <div ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-            <div ondrop="drop(event)" ondragover="allowDrop(event)"></div>
 
-            <div ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-            <div ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-            <div ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-            <div ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+    @*<div class="grid-container">
+        <div ondrop="drop(event,0)" ondragover="allowDrop(event)"></div>
+        <div ondrop="drop(event,1)" ondragover="allowDrop(event)"></div>
+        <div ondrop="drop(event,2)" ondragover="allowDrop(event)"></div>
+        <div ondrop="drop(event,3)" ondragover="allowDrop(event)"></div>
 
-        </div>
+        <div ondrop="drop(event,4)" ondragover="allowDrop(event)"></div>
+        <div ondrop="drop(event,5)" ondragover="allowDrop(event)"></div>
+        <div ondrop="drop(event,6)" ondragover="allowDrop(event)"></div>
+        <div ondrop="drop(event,7)" ondragover="allowDrop(event)"></div>
 
-        <img id="Vodka" class="Getränke" src="Bilder/Vodka.jpg" draggable="true" ondragstart="drag(event)" height="100" width="100">
-    </body>
-   
+        <div ondrop="drop(event,8)" ondragover="allowDrop(event)"></div>
+        <div ondrop="drop(event,9)" ondragover="allowDrop(event)"></div>
+        <div ondrop="drop(event,10)" ondragover="allowDrop(event)"></div>
+        <div ondrop="drop(event,11)" ondragover="allowDrop(event)"></div>
+
+        <div ondrop="drop(event,12)" ondragover="allowDrop(event)"></div>
+        <div ondrop="drop(event,13)" ondragover="allowDrop(event)"></div>
+        <div ondrop="drop(event,14)" ondragover="allowDrop(event)"></div>
+        <div ondrop="drop(event,15)" ondragover="allowDrop(event)"></div>
+
+
+    </div>
+
+    <img id="13" class="Getränke" src="Bilder/Vodka.jpg" draggable="true" ondragstart="drag(event)" height="100" width="100">
+    <img id="1" class="Getränke" src="Bilder/weißerRum.jpg" draggable="true" ondragstart="drag(event)" height="100" width="100">
+    <img id="2" class="Getränke" src="~/Bilder/BraunerRum.jpg" draggable="true" ondragstart="drag(event)" height="100" width="100">
+    <img id="4" class="Getränke" src="~/Bilder/whiskey.jpg" draggable="true" ondragstart="drag(event)" height="100" width="100">
+
+    <img id="5" class="Getränke" src="~/Bilder/gin.jpg" draggable="true" ondragstart="drag(event)" height="100" width="100">
+    <img id="11" class="Getränke" src="~/Bilder/jäger.jpg" draggable="true" ondragstart="drag(event)" height="100" width="100">
+    <img id="12" class="Getränke" src="~/Bilder/jack.jpg" draggable="true" ondragstart="drag(event)" height="100" width="100">
+
+    <img id="24" class="Getränke" src="~/Bilder/conin.jpg" draggable="true" ondragstart="drag(event)" height="100" width="100">
+    <img id="25" class="Getränke" src="~/Bilder/triplesec.jpg" draggable="true" ondragstart="drag(event)" height="100" width="100">
+    <img id="26" class="Getränke" src="~/Bilder/gingerbeer.jpg" draggable="true" ondragstart="drag(event)" height="100" width="100">
+    <img id="27" class="Getränke" src="~/Bilder/cach.jpg" draggable="true" ondragstart="drag(event)" height="100" width="100">
+
+    <img id="30" class="Getränke" src="~/Bilder/apricotBrandy.jpg" draggable="true" ondragstart="drag(event)" height="100" width="100">
+
+
+    <div class="grid-container">
+        <div ondrop="drop_nonAlk(event,0)" ondragover="allowDrop(event)"></div>
+        <div ondrop="drop_nonAlk(event,1)" ondragover="allowDrop(event)"></div>
+        <div ondrop="drop_nonAlk(event,2)" ondragover="allowDrop(event)"></div>
+        <div ondrop="drop_nonAlk(event,3)" ondragover="allowDrop(event)"></div>
+
+        <div ondrop="drop_nonAlk(event,4)" ondragover="allowDrop(event)"></div>
+        <div ondrop="drop_nonAlk(event,5)" ondragover="allowDrop(event)"></div>
+        <div ondrop="drop_nonAlk(event,6)" ondragover="allowDrop(event)"></div>
+
+
+    </div>
+    <img id="3" class="Getränke" src="~/Bilder/Cola.jpg" draggable="true" ondragstart="drag(event)" height="100" width="100">
+    <img id="6" class="Getränke" src="~/Bilder/TonicWater.jpg" draggable="true" ondragstart="drag(event)" height="100" width="100">
+    <img id="7" class="Getränke" src="~/Bilder/Sprite.jpg" draggable="true" ondragstart="drag(event)" height="100" width="100">
+    <img id="8" class="Getränke" src="~/Bilder/Energy.jpg" draggable="true" ondragstart="drag(event)" height="100" width="100">
+
+    <img id="9" class="Getränke" src="~/Bilder/Annanass.jpg" draggable="true" ondragstart="drag(event)" height="100" width="100">
+    <img id="10" class="Getränke" src="~/Bilder/OSaft.jpg" draggable="true" ondragstart="drag(event)" height="100" width="100">
+    <img id="14" class="Getränke" src="~/Bilder/kokosnusscreme.jpg" draggable="true" ondragstart="drag(event)" height="100" width="100">-->
+
+    <img id="15" class="Getränke" src="~/Bilder/Blue Curacao.jpg" draggable="true" ondragstart="drag(event)" height="100" width="100">
+    <img id="16" class="Getränke" src="~/Bilder/Sahne.jpg" draggable="true" ondragstart="drag(event)" height="100" width="100">
+    <img id="18" class="Getränke" src="~/Bilder/Limettensaft.jpg" draggable="true" ondragstart="drag(event)" height="100" width="100">
+    <img id="19" class="Getränke" src="~/Bilder/Wasser.jpg" draggable="true" ondragstart="drag(event)" height="100" width="100">
+
+    <img id="21" class="Getränke" src="~/Bilder/Grenadine.jpg" draggable="true" ondragstart="drag(event)" height="100" width="100">
+    <img id="22" class="Getränke" src="Bilder/Zitronensaft.jpg" draggable="true" ondragstart="drag(event)" height="100" width="100">
+    <img id="23" class="Getränke" src="Bilder/Maracujasaft.jpg" draggable="true" ondragstart="drag(event)" height="100" width="100">
+    <img id="28" class="Getränke" src="~/Bilder/Zuckersirup.jpg" draggable="true" ondragstart="drag(event)" height="100" width="100">
+    <img id="29" class="Getränke" src="~/Bilder/Mandelsirup.jpg" draggable="true" ondragstart="drag(event)" height="100" width="100">
+
+    <img id="31" class="Getränke" src="~/Bilder/Maracujasaft.jpg" draggable="true" ondragstart="drag(event)" height="100" width="100">
+    <img id="32" class="Getränke" src="~/Bilder/Tomatensaft.jpg" draggable="true" ondragstart="drag(event)" height="100" width="100">*@
+
+</body>
+
+
+
 </html>
 

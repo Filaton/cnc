@@ -2,6 +2,8 @@
 @using DataLibrary
 @using DapiWebApp.Models
 @using Microsoft.Extensions.Configuration
+@using System.Windows.Forms
+@inject AppState appState
 @inject IDataAccess _Cocktails
 @inject IDataAccess _Zutaten
 @inject IDataAccess _ZutatenVon
@@ -12,37 +14,41 @@
 <h3>Cocktail</h3>
 
 
-@if (AlkoholischeGetränke == null)
+@if (FlaschenGetränke == null)
 {
-    <p><em>Loading...</em></p>
-}
+<p><em>Loading...</em></p> }
 else
 {
-    <p><em>Alkoholisch</em></p>
+<p><em>Flasche</em></p>
 
-    <table class=" table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Alk</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var zutat in AlkoholischeGetränke)
-            {
-                <tr>
-                    <td>@zutat.ID</td>
-                    <td>@zutat.Name</td>
-                    <td>@zutat.Alhoholisch</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-
+                <table class=" table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Alk</th>
+                            
+                            <th>InUse</th>
+                            <th>DeUse</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var zutat in FlaschenGetränke)
+                        {
+                        <tr>
+                            <td>@zutat.ID</td>
+                            <td>@zutat.Name</td>
+                            <td>@zutat.Flasche</td>
+                            <td><input type="button" @onclick="@(e => SelectZutat(zutat.ID))" /></td>
+                                <td><input type="button" @onclick="@(e => deuse(zutat.ID))" /></td>
+                        </tr>
+}
+                    </tbody>
+                </table>
 }
 
-<p><em>Nicht Alkoholisch</em></p>
+
+<p><em>Nicht Flasche</em></p>
 
 <table class=" table">
     <thead>
@@ -50,45 +56,53 @@ else
             <th>ID</th>
             <th>Name</th>
             <th>Alk.</th>
+            <th>InUse</th>
+            <th>DeUse</th>
+           
         </tr>
     </thead>
     <tbody>
         @foreach (var zutat in ZutatenListe)
         {
-            @if (zutat.Alhoholisch == 0)
+            @if (zutat.Flasche == 0)
             {
                 <tr>
                     <td>@zutat.ID</td>
                     <td>@zutat.Name</td>
-                    <td>@zutat.Alhoholisch</td>
+                    <td>@zutat.Flasche</td>
+                    <td><input type="button" @onclick="@(e => SelectZutat(zutat.ID))" /> </td>
+                    <td><input type="button" @onclick="@(e => deuse(zutat.ID))" /></td>
                 </tr>
-            }
-
-        }
+              }
+         }
     </tbody>
 </table>
+
 <p><em>Liste der Cocktails</em></p>
 <table class=" table">
     <thead>
         <tr>
             <th>ID</th>
             <th>Name</th>
-
+            
         </tr>
     </thead>
     <tbody>
         @foreach (var drink in Drinks)
         {
-            @if (getPosition(drink.ID) != -1)
-            {
-                <tr>
-                    <td>@drink.ID</td>
-                    <td>@drink.Name</td>
-                    <td> <input type="checkbox" @onclick="@(e => SelectCocktail(drink.ID))" />   </td>
-                </tr>
-            }
 
-        }
+
+
+            // @if (getPosition(drink.ID) != -1)
+            @if (UeberpruefeCocktail(drink.ID))
+            {
+            <tr>
+                <td>@drink.ID</td>
+                <td>@drink.Name</td>
+                <td> <input type="checkbox" @onclick="@(e => SelectCocktail(drink.ID))" />   </td>
+            </tr>
+            }
+         }
     </tbody>
 </table>
 
@@ -97,63 +111,119 @@ else
 
 
 @code {
+    //Class für drag and drop elemente
+    class CocktailDragNDrop
+    {
+        public int CocktailID { get; set; }
+        public bool Dragged { get; set; }
+        public Action Event { get; set; }
+    }
+
+    List<CocktailDragNDrop> CocktailDrag;
+
 
     List<CocktailListe> Drinks;
     List<ZutatenVonListe> ZutatenVon;
     List<Zutaten> ZutatenListe = new List<Zutaten>();
     List<ViewCocktail> test;
-    List<Zutaten> AlkoholischeGetränke;
+    List<Zutaten> FlaschenGetränke;
     List<string> selectedCocktails;
-    int[,] Positionen = new int[12, 2];
-    int[,] Positionen_Getraenke = new int[16, 2];
-
+    int[,] Positionen = new int[16, 2];
+    int[] PositionenVereinfacht = new int[22];
+    public int[,] Positionen_Getraenke = new int[16, 2];
+    int IndexGetraenk = 0;
+    int EintragMaxGetraenke = 0;
+    int IndexArray = 0;
 
     protected override async Task OnInitializedAsync()
     {
         //string sql = "select CnC.cocktails.Name AS Cocktails,CnC.zutaten.Name AS Zutat from ((CnC.zutaten join CnC.cocktails) join CnC.zutat_von) where ((CnC.cocktails.ID = CnC.zutat_von.CocktailID) and (CnC.zutat_von.ZutatID = CnC.zutaten.ID));";
         string sql = "select * from cocktails;";
-        string sql2 = "select * from CnC.zutaten where Alkoholisch =0;";
+        string sql2 = "select * from CnC.zutaten where Flasche =0;";
         string sql3 = "select * from zutat_von";
         string sql4 = "select CnC.cocktails.Name AS Cocktails,CnC.zutaten.Name AS Zutat from ((CnC.zutaten join CnC.cocktails) join CnC.zutat_von) where ((CnC.cocktails.ID = CnC.zutat_von.CocktailID) and (CnC.zutat_von.ZutatID = CnC.zutaten.ID))";
-        string sql5 = "select * from zutaten where Alkoholisch =1";
+        string sql5 = "select * from zutaten where Flasche =1";
         //ZutatenVon = await _Cocktails.LoadData<ZutatenVonListe, dynamic>(sql, new { }, _config.GetConnectionString("default"));
+        //Init Lists
         ZutatenListe = await _Cocktails.LoadData<Zutaten, dynamic>(sql2, new { }, _config.GetConnectionString("default")); //Geht
         Drinks = await _Cocktails.LoadData<CocktailListe, dynamic>(sql, new { }, _config.GetConnectionString("default"));
         ZutatenVon = await _Cocktails.LoadData<ZutatenVonListe, dynamic>(sql3, new { }, _config.GetConnectionString("default"));
         test = await _Cocktails.LoadData<ViewCocktail, dynamic>(sql4, new { }, _config.GetConnectionString("default"));
-        AlkoholischeGetränke = await _Cocktails.LoadData<Zutaten, dynamic>(sql5, new { }, _config.GetConnectionString("default"));
-        foreach (var v in AlkoholischeGetränke)
+        FlaschenGetränke = await _Cocktails.LoadData<Zutaten, dynamic>(sql5, new { }, _config.GetConnectionString("default"));
+     
+        //Hier hab ich die Positionen befüllt; stur wer zuerst der zuerst ok
+        for (int i = 0; i < 22; i++)
         {
-            v.Alhoholisch = 1;
+           
+            
+                PositionenVereinfacht[i] = -1;
+            
         }
-        ZutatenListe.AddRange(AlkoholischeGetränke);
 
-        for (int i = 0; i < 12; i++)
+        for (int i = 0; i < 16; i++)
         {
-            Positionen[i, 0] = i;
-            Positionen[i, 1] = ZutatenListe[i].ID;
-            //Positionen[i, 0] = -1;
-            //Positionen[i, 1] = -1;
+            Positionen[i, 1] = -1;
         }
+
+    }
+
+
+    public void GesammteConfigFertig()
+    {
 
     }
 
     public void SelectCocktail(int ID)
     {
         //System.Net.Http.HttpContent content = new HttpContent("test");
-        string PORT="50000";
-        System.Net.Http.HttpClient client = new HttpClient();
-        client.PostAsync("http://localhost:" + PORT, new StringContent(ID.ToString()));
+        //Bekomme alle Zutaten die man benötigt 
+        List<int> ZutatenZumUebergeben = getZutatenID(ID);
+        Console.WriteLine(ZutatenZumUebergeben);
+        var input  = "";
+        foreach(var Zutat in ZutatenZumUebergeben)
+        {
+            input = input + "," +Zutat.ToString();
+        }
+        input = input.Substring(1);
+        var data = "{ \"Befehl\": \"ORDER\", \"Zutaten \":  \"" + input + "\"}";
+        string PORT = "8000";
+        @*foreach(var v in ZutatenZumUebergeben)
+        {
+            var data = "{ \"BEFEHL\": \"ORDER\", \"Zutaten \":  " + v.ToString() + "}";
+            System.Net.Http.HttpClient client = new HttpClient();
+            client.PostAsync("http://localhost:" + PORT, new StringContent(data));
+        }*@
+         System.Net.Http.HttpClient client = new HttpClient();
+        client.PostAsync("http://localhost:" + PORT, new StringContent(data));
+    }
+
+    public void SelectZutat(int ID)
+    {
+        EinsortierenEinfach(ID);
+        EintragMaxGetraenke++;
+
+    }
+    public void EinsortierenEinfach(int id)
+    {
+        if (IndexArray < 22 && PositionenVereinfacht[IndexArray] == -1)
+        {
+            PositionenVereinfacht[IndexArray] = id;
+            IndexArray++;
+        }
+        else
+        {
+            MessageBox.Show("Zu viele Zutaten ausgewählt");
+        }
     }
 
     //-1 = Getränk nicht vorhanden
     public int getPosition(int id)
     {
-        for (int i = 0; i < 12; i++)
+        for (int i = 0; i < 16; i++)
         {
-            if (Positionen[i, 1] == id)
+            if (PositionenVereinfacht[i] == id)
             {
-                return Positionen[i, 0];
+                return PositionenVereinfacht[i];
             }
         }
         return -1;
@@ -169,13 +239,93 @@ else
     public void Einsortieren(int getraenke_ID, int cocktail_ID)
     {
 
-        if (Positionen[getraenke_ID, 0] == -1)
+        //if (Positionen[getraenke_ID, 0] == -1)
+        //{
+        //    Positionen[getraenke_ID, 1] = cocktail_ID;
+        //}else
+        //{
+
+        //}
+        if (EintragMaxGetraenke < 12)
         {
-            Positionen[getraenke_ID, 1] = cocktail_ID;
+            if (Positionen[getraenke_ID, 1] == -1)
+            {
+                Positionen[getraenke_ID, 1] = cocktail_ID;
+            }
+            else
+            {
+
+                while (Positionen[IndexGetraenk, 1] != -1)
+                {
+                    IndexGetraenk++;
+                }
+
+            }
+
         }
+        else
+        {
+            //TODO COUT ERROR
+            MessageBox.Show("Zu viele Zutaten ausgewählt");
+        }
+    }
+    public void deuse(int id)
+    {
+        bool inArray = false;
+        for (int i = 11; i < 16; i++)
+        {
+            if (PositionenVereinfacht[i] == id)
+            {
+                PositionenVereinfacht[i] = -1;
+                IndexArray = i;
+                inArray = true;
+                break;
+            }
+
+        }
+        if (inArray)
+        {
+            MessageBox.Show("Zutat gelöscht");
+        }
+        else
+        {
+            MessageBox.Show("Zutat wurde nicht ausgewählt");
+        }
+
+    }
+
+    //Gibt eine Liste Aller Zutaten zurück die Ein Cocktail benötigt umn gemischt
+    List<int> getZutatenID(int GesuchteCocktailID)
+    {
+        List<int> AlleZutatenID = new List<int>();
+        foreach (var zutaten in ZutatenVon)
+        {
+            if (zutaten.CocktailID == GesuchteCocktailID)
+            {
+                AlleZutatenID.Add(zutaten.ZutatID);
+            }
+        }
+        return AlleZutatenID;
+    }
+
+    bool UeberpruefeCocktail(int ID)
+    {
+        bool ergebis = true;
+        //Bekomme eine Liste aller Zutaten die für einen Cocktail benötigt werden
+        List<int> Zutaten = getZutatenID(ID);
+
+        foreach (var Eintrag in Zutaten)
+        {
+            if (getPosition(Eintrag) == -1)
+            {
+                ergebis = false;
+                break;
+            }
+        }
+        return ergebis;
+
     }
 
 
-
-
-}
+    //end @code
+} 

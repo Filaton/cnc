@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DapiWebApp.Data;
+using DapiWebApp.Services;
 using DataLibrary;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
@@ -31,6 +32,7 @@ namespace DapiWebApp
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
             services.AddSingleton<IDataAccess, DataAccess>();
+            services.AddScoped<AppState>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -1,0 +1,73 @@
+﻿@page "/SaefteSortieren"
+@using Microsoft.AspNetCore.Components.Rendering
+@using DataLibrary
+@using DapiWebApp.Models
+@using Microsoft.Extensions.Configuration
+@using System.Windows.Forms
+@inject IDataAccess _Cocktails
+@inject IConfiguration _config
+<h3>Kanister Sortieren</h3>
+
+<div class="grid-container">
+    <div ondrop="drop_nonAlk(event,0)" ondragover="allowDrop(event)"></div>
+    <div ondrop="drop_nonAlk(event,1)" ondragover="allowDrop(event)"></div>
+    <div ondrop="drop_nonAlk(event,2)" ondragover="allowDrop(event)"></div>
+    <div ondrop="drop_nonAlk(event,3)" ondragover="allowDrop(event)"></div>
+
+    <div ondrop="drop_nonAlk(event,4)" ondragover="allowDrop(event)"></div>
+    <div ondrop="drop_nonAlk(event,5)" ondragover="allowDrop(event)"></div>
+    <div ondrop="drop_nonAlk(event,6)" ondragover="allowDrop(event)"></div>
+
+
+</div>
+
+@*
+
+    <img id="3" class="Getränke" src="Bilder/Cola.jpg" draggable="true" ondragstart="drag(event)" height="100" width="100">
+    <img id="6" class="Getränke" src="Bilder/TonicWater.jpg" draggable="true" ondragstart="drag(event)" height="100" width="100">
+    <img id="7" class="Getränke" src="Bilder/Sprite.jpg" draggable="true" ondragstart="drag(event)" height="100" width="100">
+    <img id="8" class="Getränke" src="Bilder/Energy.jpg" draggable="true" ondragstart="drag(event)" height="100" width="100">
+
+    <img id="9" class="Getränke" src="Bilder/Annanass.jpg" draggable="true" ondragstart="drag(event)" height="100" width="100">
+    <img id="10" class="Getränke" src="Bilder/OSaft.jpg" draggable="true" ondragstart="drag(event)" height="100" width="100">
+    <img id="14" class="Getränke" src="Bilder/kokosnusscreme.jpg" draggable="true" ondragstart="drag(event)" height="100" width="100">
+
+    <img id="15" class="Getränke" src="Bilder/Blue Curacao.jpg" draggable="true" ondragstart="drag(event)" height="100" width="100">
+    <img id="16" class="Getränke" src="Bilder/Sahne.jpg" draggable="true" ondragstart="drag(event)" height="100" width="100">
+    <img id="18" class="Getränke" src="Bilder/Limettensaft.jpg" draggable="true" ondragstart="drag(event)" height="100" width="100">
+    <img id="19" class="Getränke" src="Bilder/Wasser.jpg" draggable="true" ondragstart="drag(event)" height="100" width="100">
+
+    <img id="21" class="Getränke" src="Bilder/Grenadine.jpg" draggable="true" ondragstart="drag(event)" height="100" width="100">
+    <img id="22" class="Getränke" src="Bilder/Zitronensaft.jpg" draggable="true" ondragstart="drag(event)" height="100" width="100">
+    <img id="23" class="Getränke" src="Bilder/Maracujasaft.jpg" draggable="true" ondragstart="drag(event)" height="100" width="100">
+    <img id="28" class="Getränke" src="Bilder/Zuckersirup.jpg" draggable="true" ondragstart="drag(event)" height="100" width="100">
+    <img id="29" class="Getränke" src="Bilder/Mandelsirup.jpg" draggable="true" ondragstart="drag(event)" height="100" width="100">
+
+    <img id="31" class="Getränke" src="Bilder/Maracujasaft.jpg" draggable="true" ondragstart="drag(event)" height="100" width="100">
+    <img id="32" class="Getränke" src="Bilder/Tomatensaft.jpg" draggable="true" ondragstart="drag(event)" height="100" width="100">*@
+
+@{ testFunktion(__builder);}
+
+
+@code {
+    List<Zutaten> ZutatenListe = new List<Zutaten>();
+    string sql = "select ID, Image from CnC.zutaten where Flasche =0;";
+    protected override async Task OnInitializedAsync()
+    {
+        ZutatenListe = await _Cocktails.LoadData<Zutaten, dynamic>(sql, new { }, _config.GetConnectionString("default")); //Geht
+    }
+    void testFunktion(RenderTreeBuilder __builder)
+    {
+
+        foreach (var Zutat in ZutatenListe)
+        {
+            if (Zutat.Image == null)
+            {
+                Zutat.Image = "0";
+            }
+            <img id=@Zutat.ID.ToString() class="Getränke" src=@Zutat.Image.ToString() alt="Bild" draggable="true" ondragstart="drag(event)" height="100" width="100" />
+        }
+
+    }
+
+}
