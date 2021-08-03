@@ -85,6 +85,7 @@ class AddCocktail(QWidget):
         """
         super().__init__()
         uic.loadUi('addcocktail.ui', self)
+        self.par = parent
         self.SaveButton.clicked.connect(self.saveCocktail)
         self.AbortButton.clicked.connect(self.abort)
         self.getZutaten()
@@ -108,6 +109,7 @@ class AddCocktail(QWidget):
 
         temp = Cocktail(self.cocktailnameedit.text(), zutaten, mengen)
         temp.addToDB()
+        self.par.refreshList()
         self.close()
     
     def getZutaten(self):
